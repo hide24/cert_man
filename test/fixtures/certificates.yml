@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  version: 1
+  certificate_key: key1
+  certificate_request: csr1
+  certificate: cer1
+
+two:
+  version: 1
+  certificate_key: key2
+  certificate_request: csr2
+  certificate: cer2

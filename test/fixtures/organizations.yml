@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: FirstOrg
+  country: JP
+  state: Tokyo
+  locality: Chiyoda-Ku
+  organization: FirstOrg
+  unit: ''
+  mail: firstorg@example.com
+
+two:
+  name: SecondOrg
+  country: UK
+  state: London
+  locality: 
+  organization: SecondOrg
+  unit: UnitName
+  mail: secondorg@example.com
