@@ -70,6 +70,6 @@ class CertificatesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def certificate_params
-      params.require(:certificate).permit(:version, :certificate_key, :certificate_request, :certificate, :host_id)
+      params.require(:certificate).permit(:version, :certificate, :host_id)
     end
 end

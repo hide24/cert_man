@@ -69,6 +69,6 @@ class HostsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def host_params
-      params.require(:host).permit(:hostname)
+      params.require(:host).permit(:hostname, :organization_id)
     end
 end

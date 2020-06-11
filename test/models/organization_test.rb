@@ -20,4 +20,8 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_equal 'C=JP/ST=Tokyo/L=Chiyoda-Ku/O=FirstOrg', @org_one.dn(delimiter: '/')
     assert_equal 'C=UK/ST=London/O=SecondOrg/OU=UnitName', @org_two.dn(delimiter: '/')
   end
+
+  test "get entties array" do
+    assert_equal [['C', 'JP'], ['ST', 'Tokyo'], ['L', 'Chiyoda-Ku'], ['O', 'FirstOrg']], @org_one.entries
+  end
 end

@@ -4,6 +4,9 @@ class CertificatesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @certificate = certificates(:one)
     @host = hosts(:one)
+    @organization = organizations(:one)
+    @host.organization = @organization
+    @host.save
   end
 
   test "should get index" do

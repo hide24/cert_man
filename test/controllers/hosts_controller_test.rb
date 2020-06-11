@@ -3,6 +3,7 @@ require 'test_helper'
 class HostsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @host = hosts(:one)
+    @organization = organizations(:one)
   end
 
   test "should get index" do
@@ -17,7 +18,7 @@ class HostsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create host" do
     assert_difference('Host.count') do
-      post hosts_url, params: { host: { hostname: @host.hostname } }
+      post hosts_url, params: { host: { hostname: @host.hostname, organization_id: @organization.id } }
     end
 
     assert_redirected_to host_url(Host.last)
@@ -34,7 +35,7 @@ class HostsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update host" do
-    patch host_url(@host), params: { host: { hostname: @host.hostname } }
+    patch host_url(@host), params: { host: { hostname: @host.hostname, organization_id: @organization.id  } }
     assert_redirected_to host_url(@host)
   end
 
