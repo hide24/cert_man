@@ -24,13 +24,13 @@ class CertificateTest < ActiveSupport::TestCase
   end
 
   test "should have pkey" do
-    pkey = OpenSSL::PKey::RSA.new(@new_cert.certificate_key)
-    assert_kind_of OpenSSL::PKey::RSA, pkey
+    @new_cert.version += 1
+    @new_cert.save
+    assert_kind_of OpenSSL::PKey::RSA, @new_cert.certificate_key
   end
 
   test "should have csr with valid subject" do
-    csr = OpenSSL::X509::Request.new(@new_cert.certificate_request)
-    assert_includes '/C=JP/ST=Tokyo/L=Chiyoda-Ku/O=FirstOrg/CN=example1.com', csr.subject.to_s
+    assert_includes '/C=JP/ST=Tokyo/L=Chiyoda-Ku/O=FirstOrg/CN=example1.com', @new_cert.certificate_request.subject.to_s
   end
 
   test "striped_request does not contain header/footer and newlines" do

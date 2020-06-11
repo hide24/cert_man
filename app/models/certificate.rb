@@ -3,6 +3,10 @@ class Certificate < ApplicationRecord
   before_create :create_csr
   after_create :set_version
 
+  attribute :certificate_key, :pkey
+  attribute :certificate_request, :csr
+  attribute :certificate, :cer
+
   def set_version
     Certificate.transaction do
       current_version = Certificate.where(host_id: self.host_id).maximum(:version) || 0
@@ -13,25 +17,24 @@ class Certificate < ApplicationRecord
 
   def create_pkey
     rsa = OpenSSL::PKey::RSA.generate 2048
-    self.certificate_key = rsa.export
+    self.certificate_key = rsa
   end
 
   def create_csr
     create_pkey if certificate_key.blank?
-    rsa = OpenSSL::PKey::RSA.new(certificate_key)
 
     csr = OpenSSL::X509::Request.new
     csr.subject = host.x509_name
-    csr.public_key = rsa.public_key
-    csr.sign(rsa, 'sha1')
+    csr.public_key = certificate_key.public_key
+    csr.sign(certificate_key, 'sha1')
 
-    self.certificate_request = csr.to_s
+    self.certificate_request = csr
   end
 
   def striped_request
     begin_mark = '-----BEGIN CERTIFICATE REQUEST-----'
     end_mark = '-----END CERTIFICATE REQUEST-----'
-    certificate_request.sub(begin_mark, '').sub(end_mark, '').gsub(/\n/, '')
+    certificate_request.to_s.sub(begin_mark, '').sub(end_mark, '').gsub(/\n/, '')
   end
 
   def validate_certificate
@@ -42,3 +45,4 @@ class Certificate < ApplicationRecord
     end
   end
 end
+
