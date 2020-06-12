@@ -13,6 +13,6 @@ class Host < ApplicationRecord
   end
 
   def tsv_discription
-    "CN=#{hostname}," + organization.entries.reverse.map{|v| v.join('=')}.join(',')
+    "CN=#{hostname}," + organization.dn(reverse: true)
   end
 end

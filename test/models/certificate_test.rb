@@ -24,8 +24,6 @@ class CertificateTest < ActiveSupport::TestCase
   end
 
   test "should have pkey" do
-    @new_cert.version += 1
-    @new_cert.save
     assert_kind_of OpenSSL::PKey::RSA, @new_cert.certificate_key
   end
 
@@ -37,5 +35,18 @@ class CertificateTest < ActiveSupport::TestCase
     assert_not /-----BEGIN CERTIFICATE REQUEST-----/ =~ @new_cert.striped_request
     assert_not /-----END CERTIFICATE REQUEST-----/ =~ @new_cert.striped_request
     assert_not /\n/ =~ @new_cert.striped_request
+  end
+
+  test "should validate certificate" do
+    @valid_cert1 = certificates(:one)
+    @valid_cert2 = certificates(:two)
+    @invalid_cert = certificates(:three)
+    
+    @valid_cert1.validate_certificate
+    @valid_cert2.validate_certificate
+    @invalid_cert.validate_certificate
+    assert_equal [], @valid_cert1.errors.full_messages
+    assert_equal [], @valid_cert2.errors.full_messages
+    assert_equal ["Certificate certificate should be X509 certificate."], @invalid_cert.errors.full_messages
   end
 end

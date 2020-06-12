@@ -7,6 +7,8 @@ class Certificate < ApplicationRecord
   attribute :certificate_request, :csr
   attribute :certificate, :cer
 
+  validate :validate_certificate
+
   def set_version
     Certificate.transaction do
       current_version = Certificate.where(host_id: self.host_id).maximum(:version) || 0
@@ -16,6 +18,7 @@ class Certificate < ApplicationRecord
   end
 
   def create_pkey
+    OpenSSL::Random.seed(File.read("/dev/random", 16))
     rsa = OpenSSL::PKey::RSA.generate 2048
     self.certificate_key = rsa
   end
@@ -38,10 +41,27 @@ class Certificate < ApplicationRecord
   end
 
   def validate_certificate
-    begin
-      cer = OpenSSL::X509::Certificate.new(@new_cert.certificate)
-    rescue
+    bigin_mark = "-----BEGIN CERTIFICATE-----\n"
+    end_mark = "\n-----END CERTIFICATE-----"
+
+    return if certificate.blank?
+
+    unless certificate.kind_of?(OpenSSL::X509::Certificate)
+      cert_text = bigin_mark + certificate + end_mark
+      self.certificate = cert_text
+    end
+
+    unless certificate.kind_of?(OpenSSL::X509::Certificate)
       errors.add(:certificate, 'certificate should be X509 certificate.')
+      return
+    end
+
+    unless certificate.subject == certificate_request.subject
+      errors.add(:certificate, 'subject does not match.')
+    end
+
+    unless certificate.public_key.to_s == certificate_key.public_key.to_s
+      errors.add(:certificate, 'RSA public key does not match.')
     end
   end
 end
