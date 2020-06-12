@@ -1,10 +1,11 @@
 class CertificatesController < ApplicationController
   before_action :set_certificate, only: [:show, :edit, :update, :destroy]
 
-  # GET /certificates
-  # GET /certificates.json
+  # GET /hosts/:host_id/certificates
+  # GET /hosts/:host_id/certificates.json
   def index
-    @certificates = Certificate.all
+    @host = Host.find(params[:host_id])
+    @certificates = Certificate.where(host_id: @host)
   end
 
   # GET /certificates/1
@@ -12,19 +13,22 @@ class CertificatesController < ApplicationController
   def show
   end
 
-  # GET /certificates/new
+  # GET /hosts/:host_id/certificates/new
   def new
-    @certificate = Certificate.new
+    @host = Host.find(params[:host_id])
+    @certificate = Certificate.new(host_id: @host)
   end
 
   # GET /certificates/1/edit
   def edit
   end
 
-  # POST /certificates
-  # POST /certificates.json
+  # POST /hosts/:host_id/certificates
+  # POST /hosts/:host_id/certificates.json
   def create
+    @host = Host.find(params[:host_id])
     @certificate = Certificate.new(certificate_params)
+    @certificate.host = @host
 
     respond_to do |format|
       if @certificate.save
@@ -57,7 +61,7 @@ class CertificatesController < ApplicationController
   def destroy
     @certificate.destroy
     respond_to do |format|
-      format.html { redirect_to certificates_url, notice: 'Certificate was successfully destroyed.' }
+      format.html { redirect_to host_certificates_url(@certificate.host), notice: 'Certificate was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -70,6 +74,6 @@ class CertificatesController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def certificate_params
-      params.require(:certificate).permit(:version, :certificate, :host_id)
+      params.require(:certificate).permit(:certificate)
     end
 end

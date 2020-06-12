@@ -7,21 +7,23 @@ class CertificatesControllerTest < ActionDispatch::IntegrationTest
     @organization = organizations(:one)
     @host.organization = @organization
     @host.save
+    @certificate.host = @host
+    @certificate.save
   end
 
   test "should get index" do
-    get certificates_url
+    get host_certificates_url(@host)
     assert_response :success
   end
 
   test "should get new" do
-    get new_certificate_url
+    get new_host_certificate_url(@host)
     assert_response :success
   end
 
   test "should create certificate" do
     assert_difference('Certificate.count') do
-      post certificates_url, params: { certificate: { certificate: @certificate.certificate, certificate_request: @certificate.certificate_request, certificate_key: @certificate.certificate_key, version: @certificate.version, host_id: @host.id } }
+      post host_certificates_url(@host), params: { certificate: { certificate: @certificate.certificate, certificate_request: @certificate.certificate_request, certificate_key: @certificate.certificate_key, version: @certificate.version, host_id: @host.id } }
     end
 
     assert_redirected_to certificate_url(Certificate.last)
@@ -47,6 +49,6 @@ class CertificatesControllerTest < ActionDispatch::IntegrationTest
       delete certificate_url(@certificate)
     end
 
-    assert_redirected_to certificates_url
+    assert_redirected_to host_certificates_url(@host)
   end
 end

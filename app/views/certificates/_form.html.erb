@@ -1,4 +1,4 @@
-<%= form_with(model: certificate, local: true) do |form| %>
+<%= form_with(model: certificate, url: (@host? host_certificates_url(@host): certificate_url(certificate)), local: true) do |form| %>
   <% if certificate.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(certificate.errors.count, "error") %> prohibited this certificate from being saved:</h2>

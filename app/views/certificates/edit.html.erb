@@ -3,4 +3,4 @@
 <%= render 'form', certificate: @certificate %>
 
 <%= link_to 'Show', @certificate %> |
-<%= link_to 'Back', certificates_path %>
+<%= link_to 'Back', host_certificates_path(@certificate.host) %>
