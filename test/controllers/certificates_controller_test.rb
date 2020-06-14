@@ -51,4 +51,19 @@ class CertificatesControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to host_certificates_url(@host)
   end
+
+  test "should return private key" do
+    get certificate_url(@certificate, format: 'key')
+    assert_match @certificate.certificate_key.to_s, @response.body
+  end
+
+  test "should return certificate request" do
+    get certificate_url(@certificate, format: 'csr')
+    assert_match @certificate.certificate_request.to_s, @response.body
+  end
+
+  test "should return certificate" do
+    get certificate_url(@certificate, format: 'cer')
+    assert_match @certificate.certificate.to_s, @response.body
+  end
 end

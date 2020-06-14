@@ -64,5 +64,20 @@ class Certificate < ApplicationRecord
       errors.add(:certificate, 'RSA public key does not match.')
     end
   end
+
+  def to_tsv
+    [
+      host.tsv_discription,
+      3, nil,
+      certificate.try(:serial).to_s,
+      nil, nil,
+      striped_request,
+      host.owner_name,
+      host.organization.name,
+      host.organization.mail,
+      host.hostname,
+      'apache2.4', nil
+    ].join("\t")
+  end
 end
 
