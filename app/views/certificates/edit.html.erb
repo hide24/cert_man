@@ -1,6 +1,6 @@
 <h1>Editing Certificate</h1>
 
-<%= render 'form', certificate: @certificate %>
+<%= render 'form', certificate: @certificate, host: nil %>
 
 <%= link_to 'Show', @certificate %> |
 <%= link_to 'Back', host_certificates_path(@certificate.host) %>
