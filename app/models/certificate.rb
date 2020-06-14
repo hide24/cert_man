@@ -74,7 +74,7 @@ class Certificate < ApplicationRecord
       striped_request,
       host.owner_name,
       host.organization.name,
-      host.organization.mail,
+      host.mail,
       host.hostname,
       'apache2.4', nil
     ].join("\t")
