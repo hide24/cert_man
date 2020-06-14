@@ -45,4 +45,10 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to organizations_url
   end
+
+  test "should get duplicated form" do
+    get dup_organization_url(@organization)
+    assert_response :success
+    assert_match 'FirstOrg', @response.body
+  end
 end

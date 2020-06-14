@@ -1,5 +1,5 @@
 class OrganizationsController < ApplicationController
-  before_action :set_organization, only: [:show, :edit, :update, :destroy]
+  before_action :set_organization, only: [:show, :edit, :update, :destroy, :dup]
 
   # GET /organizations
   # GET /organizations.json
@@ -59,6 +59,11 @@ class OrganizationsController < ApplicationController
       format.html { redirect_to organizations_url, notice: 'Organization was successfully destroyed.' }
       format.json { head :no_content }
     end
+  end
+
+  # GET c/organization/1/dup
+  def dup
+    render action: 'new'
   end
 
   private

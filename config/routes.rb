@@ -1,7 +1,14 @@
 Rails.application.routes.draw do
-  resources :organizations
+  resources :certificate_applications
+  resources :organizations do
+    member do
+      get 'dup'
+    end
+  end
   resources :hosts do
-    resources :certificates, shallow: true
+    resources :certificates, shallow: true do
+      get 'rsa', 'csr', 'cer'
+    end
   end
   devise_for :users
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html

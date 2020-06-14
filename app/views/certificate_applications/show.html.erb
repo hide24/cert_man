@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @certificate_application.user_id %>
+</p>
+
+<p>
+  <strong>Finished:</strong>
+  <%= @certificate_application.finished %>
+</p>
+
+<%= link_to 'Edit', edit_certificate_application_path(@certificate_application) %> |
+<%= link_to 'Back', certificate_applications_path %>

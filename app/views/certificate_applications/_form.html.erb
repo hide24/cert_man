@@ -1,0 +1,27 @@
+<%= form_with(model: certificate_application, local: true) do |form| %>
+  <% if certificate_application.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(certificate_application.errors.count, "error") %> prohibited this certificate_application from being saved:</h2>
+
+      <ul>
+        <% certificate_application.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :user_id %>
+    <%= form.number_field :user_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :finished %>
+    <%= form.number_field :finished %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
