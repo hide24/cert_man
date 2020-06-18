@@ -61,7 +61,7 @@ class OrganizationsController < ApplicationController
     end
   end
 
-  # GET c/organization/1/dup
+  # GET /organization/1/dup
   def dup
     render action: 'new'
   end

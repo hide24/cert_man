@@ -8,11 +8,23 @@
 import Vue from 'vue'
 import App from '../app.vue'
 
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+import VuejsDialog from 'vuejs-dialog'
+import VuejsDialogMixin from 'vuejs-dialog/dist/vuejs-dialog-mixin.min.js'
+import 'vuejs-dialog/dist/vuejs-dialog.min.css'
+
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
+Vue.use(VuejsDialog)
+
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({
     render: h => h(App)
   }).$mount()
-  document.body.appendChild(app.$el)
+  document.getElementById('vue_home').appendChild(app.$el)
 
   console.log(app)
 })
