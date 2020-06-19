@@ -27,7 +27,7 @@ export default {
   props: ["currentPage", "pageCount"],
   methods: {
     changePage(pageNum) {
-      this.$emit("changePage", this.currentPage)
+      this.$emit("changePage", pageNum)
     },
   },
 }

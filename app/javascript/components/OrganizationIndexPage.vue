@@ -1,11 +1,21 @@
 <template>
   <div id="app">
-    <b-button :to="{ name: 'OrganizationNewPage' }" variant="primary">Create New Organization</b-button>
-
-    <paginate-link :currentPage="currentPage" :pageCount="getPageCount" @changePage="changePage($event)"></paginate-link>
+    <div class="row">
+      <div class="col-sm">
+        <b-button :to="{ name: 'OrganizationNewPage' }" variant="primary">Create New Organization</b-button>
+      </div>
+      <div class="col-sm">
+        <div>search: <input type="text" v-model="select" placeholder="Organization Name"></div>
+      </div>
+      <div class="col-sm">
+        <div class="float-right">
+          <paginate-link :currentPage="currentPage" :pageCount="getPageCount" @changePage="changePage($event)"></paginate-link>
+        </div>
+      </div>
+    </div>
 
     <table class="table table-striped table-bordered">
-      <tbody>
+      <tbody v-if="organizations.length">
         <tr>
           <th>ID</th>
           <th>Name</th>
@@ -23,9 +33,18 @@
           </td>
         </tr>
       </tbody>
+      <tbody v-else>
+        <tr><td colspan="4">No Organization Match.</td></tr>
+      </tbody>
     </table>
 
-    <paginate-link :currentPage="currentPage" :pageCount="getPageCount" @changePage="changePage($event)"></paginate-link>
+    <div class="row">
+      <div class="col-sm">
+        <div class="float-right">
+          <paginate-link :currentPage="currentPage" :pageCount="getPageCount" @changePage="changePage($event)"></paginate-link>
+        </div>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -43,8 +62,9 @@ export default {
   data: function () {
     return {
       organizations: [],
+      select: '',
       parPage: 5,
-      currentPage: 1,
+      currentPage: this.currentPage = this.$route.query.page || 1
     }
   },
   computed: {
@@ -79,7 +99,7 @@ export default {
       }
     },
     updateOrganization() {
-      axios.get('/organizations.json', {withCredentials: true})
+      axios.get(`/organizations.json?query=${this.select}`, {withCredentials: true})
         .then(response => this.organizations = response.data)
     },
     deleteOrganization(dialog, organization) {
@@ -102,10 +122,30 @@ export default {
     },
     changePage(pageNum) {
       this.currentPage = Number(pageNum)
+      this.$router.push({
+        name: 'OrganizationIndexPage',
+        query: this.buildQuery(),
+      })
+    },
+    buildQuery() {
+      let q = {}
+      if(this.currentPage > 1) {q.page = this.currentPage}
+      if(this.select.length > 1) {q.select = this.select}
+      return q
     },
   },
   mounted () {
     this.updateOrganization()
+  },
+  watch:{
+    select() {
+      this.currentPage = 1
+      this.updateOrganization()
+      this.$router.push({
+        name: 'OrganizationIndexPage',
+        query: this.buildQuery(),
+      })
+    },
   },
 
   filters: {

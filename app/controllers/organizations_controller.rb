@@ -4,7 +4,10 @@ class OrganizationsController < ApplicationController
   # GET /organizations
   # GET /organizations.json
   def index
-    @organizations = Organization.all
+    @organizations = Organization.order(:id)
+    if params[:query].present?
+      @organizations = @organizations.where('name like ?', '%' + params[:query] + '%')
+    end
   end
 
   # GET /organizations/1
