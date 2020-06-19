@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    Edit
     <organization-form :model="model"></organization-form>
   </div>
 </template>

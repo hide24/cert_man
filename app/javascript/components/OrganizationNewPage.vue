@@ -1,6 +1,5 @@
 <template>
   <div id="app">
-    New
     <organization-form :model="model"></organization-form>
   </div>
 </template>

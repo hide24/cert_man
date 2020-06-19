@@ -24,99 +24,110 @@ export default {
   components: {
     "vue-form-generator": VueFormGenerator.component
   },
-  props: ["model"],
+  props: ["model", "readonly"],
   data: function () {
     return {
       isValid: false,
       errors: "",
 
       schema: {
-        fields: [
-          {
-            type: "input",
-            inputType: "text",
-            label: "Name",
-            model: "organization.name",
-            inputName: "organization[name]",
-            readonly: false,
-            featured: true,
-            required: true,
-            disabled: false,
-            placeholder: "Name",
-            validator: VueFormGenerator.validators.string
-          }, {
-            type: "input",
-            inputType: "text",
-            label: "Country",
-            model: "organization.country",
-            inputName: "organization[country]",
-            readonly: false,
-            featured: true,
-            required: true,
-            disabled: false,
-            placeholder: "",
-            validator: VueFormGenerator.validators.string
-          }, {
-            type: "input",
-            inputType: "text",
-            label: "state",
-            model: "organization.state",
-            inputName: "organization[state]",
-            readonly: false,
-            featured: true,
-            required: true,
-            disabled: false,
-            placeholder: "",
-            validator: VueFormGenerator.validators.string
-          }, {
-            type: "input",
-            inputType: "text",
-            label: "locality",
-            model: "organization.locality",
-            inputName: "organization[locality]",
-            readonly: false,
-            featured: true,
-            required: true,
-            disabled: false,
-            placeholder: "",
-            validator: VueFormGenerator.validators.string
-          }, {
-            type: "input",
-            inputType: "text",
-            label: "Organization",
-            model: "organization.organization",
-            inputName: "organizationorganization",
-            readonly: false,
-            featured: true,
-            required: true,
-            disabled: false,
-            placeholder: "",
-            validator: VueFormGenerator.validators.string
-          }, {
-            type: "input",
-            inputType: "text",
-            label: "Organizational Unit",
-            model: "organization.unit",
-            inputName: "organization[unit]",
-            readonly: false,
-            featured: true,
-            required: false,
-            disabled: false,
-            placeholder: "",
-            validator: VueFormGenerator.validators.string
-          }, {
-            type: "input",
-            inputType: "text",
-            label: "Mail",
-            model: "organization.mail",
-            inputName: "organization[mail]",
-            readonly: false,
-            featured: true,
-            required: false,
-            disabled: false,
-            placeholder: "",
-            validator: VueFormGenerator.validators.string
-          }
+        groups: [
+        {
+          legend: 'Organization Info',
+          fields: [
+            {
+              type: "input",
+              inputType: "text",
+              label: "Name",
+              model: "organization.name",
+              inputName: "organization[name]",
+              readonly: this.readonly,
+              featured: true,
+              required: true,
+              disabled: false,
+              placeholder: "Name",
+              validator: VueFormGenerator.validators.string
+            },
+          ]
+        },
+        {
+          legend: 'Domain Name Info',
+          fields: [
+            {
+              type: "input",
+              inputType: "text",
+              label: "Country",
+              model: "organization.country",
+              inputName: "organization[country]",
+              readonly: this.readonly,
+              featured: true,
+              required: true,
+              disabled: false,
+              placeholder: "",
+              validator: VueFormGenerator.validators.string
+            }, {
+              type: "input",
+              inputType: "text",
+              label: "state",
+              model: "organization.state",
+              inputName: "organization[state]",
+              readonly: this.readonly,
+              featured: true,
+              required: true,
+              disabled: false,
+              placeholder: "",
+              validator: VueFormGenerator.validators.string
+            }, {
+              type: "input",
+              inputType: "text",
+              label: "locality",
+              model: "organization.locality",
+              inputName: "organization[locality]",
+              readonly: this.readonly,
+              featured: true,
+              required: true,
+              disabled: false,
+              placeholder: "",
+              validator: VueFormGenerator.validators.string
+            }, {
+              type: "input",
+              inputType: "text",
+              label: "Organization",
+              model: "organization.organization",
+              inputName: "organizationorganization",
+              readonly: this.readonly,
+              featured: true,
+              required: true,
+              disabled: false,
+              placeholder: "",
+              validator: VueFormGenerator.validators.string
+            }, {
+              type: "input",
+              inputType: "text",
+              label: "Organizational Unit",
+              model: "organization.unit",
+              inputName: "organization[unit]",
+              readonly: this.readonly,
+              featured: true,
+              required: false,
+              disabled: false,
+              placeholder: "",
+              validator: VueFormGenerator.validators.string
+            }, {
+              type: "input",
+              inputType: "text",
+              label: "Mail",
+              model: "organization.mail",
+              inputName: "organization[mail]",
+              readonly: this.readonly,
+              featured: true,
+              required: false,
+              disabled: false,
+              placeholder: "",
+              validator: VueFormGenerator.validators.string
+            }
+          ],
+        },
         ]
       },
       formOptions: {
