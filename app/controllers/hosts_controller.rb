@@ -4,7 +4,10 @@ class HostsController < ApplicationController
   # GET /hosts
   # GET /hosts.json
   def index
-    @hosts = Host.all
+    @hosts = Host.order(:id)
+    if params[:query].present?
+      @hosts = @hosts.where('hostname like ?', '%' + params[:query] + '%')
+    end
   end
 
   # GET /hosts/1

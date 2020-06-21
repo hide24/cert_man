@@ -30,7 +30,7 @@
         <tr v-for="o in getItems">
           <td><router-link :to="{ name: 'OrganizationDetailPage', params: { id: o.id } }">{{ o.id }}</router-link></td>
           <td><router-link :to="{ name: 'OrganizationDetailPage', params: { id: o.id } }">{{ o.name }}</router-link></td>
-          <td>{{ o | to_dn }}</td>
+          <td>{{ o.dn }}</td>
           <td>
             <b-button :to="{ name: 'OrganizationDetailPage', params: { id: o.id } }" variant="outline-primary">View</b-button>
             <b-button :to="{ name: 'OrganizationEditPage', params: { id: o.id } }" variant="outline-secondary">Edit</b-button>
@@ -151,18 +151,6 @@ export default {
       })
     },
   },
-  filters: {
-    to_dn(o) {
-      var dn_str = ""
-      if(o.country) { dn_str += `/C=${o.country}`}
-      if(o.state) { dn_str += `/ST=${o.state}`}
-      if(o.locality) { dn_str += `/L=${o.locality}`}
-      if(o.county) { dn_str += `/C=${o.country}`}
-      if(o.organization) { dn_str += `/O=${o.organization}`}
-      if(o.unit) { dn_str += `/OU=${o.unit}`}
-      return dn_str
-    }
-  }
 }
 </script>
 
