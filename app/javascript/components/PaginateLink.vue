@@ -21,9 +21,7 @@
 import Paginate from 'vuejs-paginate'
 
 export default {
-  components: {
-    Paginate
-  },
+  components: { Paginate },
   props: ["currentPage", "pageCount"],
   methods: {
     changePage(pageNum) {

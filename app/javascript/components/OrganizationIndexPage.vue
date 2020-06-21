@@ -14,6 +14,11 @@
       </div>
     </div>
 
+    <div v-if="errors.length != 0">
+      <ul v-for="e in errors" :key="e">
+        <li><font color="red">{{ e }}</font></li>
+      </ul>
+    </div>
     <table class="table table-striped table-bordered">
       <tbody v-if="organizations.length">
         <tr>
@@ -57,10 +62,11 @@ import PaginateLink from './PaginateLink.vue'
 export default {
   components: {
     Paginate,
-    PaginateLink
+    PaginateLink,
   },
-  data: function () {
+  data() {
     return {
+      errors: '',
       organizations: [],
       select: '',
       parPage: 5,
@@ -86,10 +92,10 @@ export default {
         okText: 'OK',
         cancelText: 'Cancel',
         backdropClose: true,
-        ok: function(dialog) {
+        ok(dialog) {
           self.deleteOrganization(dialog, organization)
         },
-        cancel: function() {
+        cancel() {
           console.log('canceled.')
         },
         message: {
@@ -109,13 +115,15 @@ export default {
           .delete(`/organizations/${organization.id}.json`)
           .then(response => {
             this.updateOrganization()
+            this.$toasted.show('Organization was successfully deleted.', {type: 'success'})
             dialog.close()
           })
           .catch(error => {
             console.error(error)
-//            if (error.response.data && error.response.data.errors) {
-//            this.errors = error.response.data.errors;
-//            }
+            this.$toasted.show('Error occurred.', {type: 'error'})
+            if (error.response.data && error.response.data.errors) {
+            this.errors = error.response.data.errors;
+            }
           })
       }
       console.log('executed.');
@@ -134,7 +142,7 @@ export default {
       return q
     },
   },
-  mounted () {
+  mounted() {
     this.updateOrganization()
   },
   watch:{
@@ -147,7 +155,6 @@ export default {
       })
     },
   },
-
   filters: {
     to_dn(o) {
       var dn_str = ""

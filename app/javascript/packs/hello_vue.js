@@ -11,14 +11,26 @@ import App from '../app.vue'
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+Vue.use(BootstrapVue)
+Vue.use(IconsPlugin)
 
 import VuejsDialog from 'vuejs-dialog'
 import VuejsDialogMixin from 'vuejs-dialog/dist/vuejs-dialog-mixin.min.js'
 import 'vuejs-dialog/dist/vuejs-dialog.min.css'
-
-Vue.use(BootstrapVue)
-Vue.use(IconsPlugin)
 Vue.use(VuejsDialog)
+
+import VueFormGenerator from "vue-form-generator"
+import "vue-form-generator/dist/vfg.css"
+Vue.use(VueFormGenerator)
+
+import Toasted from 'vue-toasted'
+var toast_options = {
+  position: 'top-left',
+  duration: 3000,
+  type: 'default',
+  theme: 'outline',
+}
+Vue.use(Toasted, toast_options)
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({

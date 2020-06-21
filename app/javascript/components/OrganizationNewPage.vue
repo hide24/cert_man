@@ -9,8 +9,7 @@ import OrganizationForm from './OrganizationForm.vue'
 
 export default {
   components: { OrganizationForm },
-
-  data: function () {
+  data() {
     return {
       model: {
         organization: {

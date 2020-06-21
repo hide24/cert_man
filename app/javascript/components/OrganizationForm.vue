@@ -1,6 +1,6 @@
 <template>
   <div class="panel-body">
-    <form @submit.prevent="updateOrganization">
+    <form @submit.prevent="submitOrganization">
       <div v-if="errors.length != 0">
         <ul v-for="e in errors" :key="e">
           <li><font color="red">{{ e }}</font></li>
@@ -8,24 +8,19 @@
       </div>
       <vue-form-generator :schema="schema" :model="model" :options="formOptions"  @validated="onValidated"></vue-form-generator>
       <div class="mx-auto" style="width: 200px;">
-        <b-button :to="{ name: 'OrganizationIndexPage' }" variant="outline-secondary">Back</b-button>
-        <b-button type="submit" variant="primary" :disabled="!isValid">Commit</b-button>
+        <b-button @click="$router.go(-1)" variant="outline-secondary">Back</b-button>
+        <b-button type="submit" variant="primary" :disabled="!isValid" v-if="!readonly">{{ submitButton }}</b-button>
       </div>
     </form>
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-import VueFormGenerator from "vue-form-generator";
-import "vue-form-generator/dist/vfg.css"; 
+import axios from 'axios'
 
 export default {
-  components: {
-    "vue-form-generator": VueFormGenerator.component
-  },
   props: ["model", "readonly"],
-  data: function () {
+  data() {
     return {
       isValid: false,
       errors: "",
@@ -46,7 +41,7 @@ export default {
               required: true,
               disabled: false,
               placeholder: "Name",
-              validator: VueFormGenerator.validators.string
+              validator: "string"
             },
           ]
         },
@@ -64,7 +59,7 @@ export default {
               required: true,
               disabled: false,
               placeholder: "",
-              validator: VueFormGenerator.validators.string
+              validator: "string"
             }, {
               type: "input",
               inputType: "text",
@@ -76,7 +71,7 @@ export default {
               required: true,
               disabled: false,
               placeholder: "",
-              validator: VueFormGenerator.validators.string
+              validator: "string"
             }, {
               type: "input",
               inputType: "text",
@@ -88,7 +83,7 @@ export default {
               required: true,
               disabled: false,
               placeholder: "",
-              validator: VueFormGenerator.validators.string
+              validator: "string"
             }, {
               type: "input",
               inputType: "text",
@@ -100,7 +95,7 @@ export default {
               required: true,
               disabled: false,
               placeholder: "",
-              validator: VueFormGenerator.validators.string
+              validator: "string"
             }, {
               type: "input",
               inputType: "text",
@@ -112,7 +107,7 @@ export default {
               required: false,
               disabled: false,
               placeholder: "",
-              validator: VueFormGenerator.validators.string
+              validator: "string"
             }, {
               type: "input",
               inputType: "text",
@@ -124,7 +119,7 @@ export default {
               required: false,
               disabled: false,
               placeholder: "",
-              validator: VueFormGenerator.validators.string
+              validator: "string"
             }
           ],
         },
@@ -136,35 +131,47 @@ export default {
       }
     }
   },
-
+  computed: {
+    submitButton() {
+      let button = 'Create'
+      if(this.model.organization.id) { button = 'Update'}
+      return button
+    }
+  },
   methods: {
-    updateOrganization() {
+    submitOrganization() {
       if(this.model.organization.id) {
+        // update
         axios
         .put(`/organizations/${this.model.organization.id}.json`, this.model)
         .then(response => {
-          let e = response.data;
-          this.$router.push({ name: 'OrganizationDetailPage', params: { id: e.id } });
+          let e = response.data
+          this.$toasted.show('Organization was successfully updated.', {type: 'success'})
+          this.$router.go(-1)
         })
         .catch(error => {
-          console.error(error);
+          console.error(error)
           if (error.response.data && error.response.data.errors) {
-            this.errors = error.response.data.errors;
+            this.$toasted.show('Error occurred.', {type: 'error'})
+            this.errors = error.response.data.errors
           }
         });
       } else {
+        // create
         axios
         .post(`/organizations.json`, this.model)
         .then(response => {
-          let e = response.data;
-          this.$router.push({ name: 'OrganizationDetailPage', params: { id: e.id } });
+          let e = response.data
+          this.$toasted.show('Organization was successfully created.', {type: 'success'})
+          this.$router.push({ name: 'OrganizationIndexPage' })
         })
         .catch(error => {
-          console.error(error);
+          console.error(error)
           if (error.response.data && error.response.data.errors) {
-            this.errors = error.response.data.errors;
+            this.$toasted.show('Error occurred.', {type: 'error'})
+            this.errors = error.response.data.errors
           }
-        });
+        })
       }
     },
     onValidated(isValid, errors) {

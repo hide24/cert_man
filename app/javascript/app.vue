@@ -17,6 +17,11 @@ import axios from 'axios';
 import { csrfToken } from '@rails/ujs'
 axios.defaults.headers.common['X-CSRF-Token'] = csrfToken()
 
+import VueFormGenerator from "vue-form-generator"
+import "vue-form-generator/dist/vfg.css"
+Vue.component("VueFormGenerator", VueFormGenerator.component)
+
+
 const router = new VueRouter({
   routes: [
     { path: '/',

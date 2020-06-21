@@ -10,8 +10,7 @@ import OrganizationForm from './OrganizationForm.vue'
 
 export default {
   components: { OrganizationForm },
-
-  data: function () {
+  data() {
     return {
       model: {
         organization: {
@@ -19,8 +18,7 @@ export default {
       }
     }
   },
-
-  mounted () {
+  mounted() {
     axios.get(`/organizations/${this.$route.params.id}.json`, {withCredentials: true})
       .then(response => this.model.organization = response.data)
   }

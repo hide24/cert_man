@@ -14,6 +14,7 @@
     "vue-loader": "^15.9.2",
     "vue-router": "^3.3.4",
     "vue-template-compiler": "^2.6.11",
+    "vue-toasted": "^1.1.28",
     "vuejs-dialog": "^1.4.1",
     "vuejs-paginate": "^2.1.0"
   },
