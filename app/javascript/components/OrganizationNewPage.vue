@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <organization-form :model="model" :schema="schema"></organization-form>
+    <organization-form ></organization-form>
   </div>
 </template>
 
@@ -11,17 +11,8 @@ export default {
   components: { OrganizationForm },
   data() {
     return {
-      model: {
-        organization: {
-        }
-      },
-      schema: {},
     }
   },
-  mounted() {
-    axios.get(`/organizations/schema`, {withCredentials: true})
-      .then(response => this.schema = response.data)
-  }
 }
 </script>
 

@@ -19,14 +19,17 @@
 import axios from 'axios'
 
 export default {
-  props: ["model", "readonly"],
+  props: ["id", "readonly"],
   data() {
     return {
+      model: {
+        organization: {}
+      },
       isValid: false,
       errors: "",
       schema: {},
       formOptions: {
-        validateAfterLoad: false,
+        validateAfterLoad: true,
         validateAfterChanged: true
       }
     }
@@ -34,11 +37,15 @@ export default {
   mounted() {
     axios.get(`/organizations/schema?readonly=${this.readonly}`, {withCredentials: true})
       .then(response => this.schema = response.data)
+    if(this.id) {
+      axios.get(`/organizations/${this.id}.json`, {withCredentials: true})
+        .then(response => this.model.organization = response.data)
+    }
   },
   computed: {
     submitButton() {
       let button = 'Create'
-      if(this.model.organization.id) { button = 'Update'}
+      if(this.id) { button = 'Update'}
       return button
     }
   },
