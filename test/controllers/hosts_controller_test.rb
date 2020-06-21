@@ -46,4 +46,11 @@ class HostsControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to hosts_url
   end
+
+  test "should get form schema" do
+    @host2 = hosts(:two)
+    @schema = file_fixture('host.schema.json').read % [@host.id, @host2.id]
+    get schema_hosts_url
+    assert_equal @schema, response.body
+  end
 end

@@ -51,4 +51,9 @@ class OrganizationsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
     assert_match 'FirstOrg', @response.body
   end
+
+  test "should get form schema" do
+    get schema_organizations_url
+    assert_equal file_fixture('organization.schema.json').read, response.body
+  end
 end
