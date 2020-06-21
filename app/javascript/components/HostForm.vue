@@ -1,6 +1,6 @@
 <template>
   <div class="panel-body">
-    <form @submit.prevent="submitOrganization">
+    <form @submit.prevent="submitHost">
       <div v-if="errors.length != 0">
         <ul v-for="e in errors" :key="e">
           <li><font color="red">{{ e }}</font></li>
@@ -19,7 +19,7 @@
 import axios from 'axios'
 
 export default {
-  props: ["model", "readonly"],
+  props: ["model", "readonly"], // "organizations"],
   data() {
     return {
       isValid: false,
@@ -28,29 +28,29 @@ export default {
       formOptions: {
         validateAfterLoad: false,
         validateAfterChanged: true
-      }
+      },
     }
-  },
-  mounted() {
-    axios.get(`/organizations/schema?readonly=${this.readonly}`, {withCredentials: true})
-      .then(response => this.schema = response.data)
   },
   computed: {
     submitButton() {
       let button = 'Create'
-      if(this.model.organization.id) { button = 'Update'}
+      if(this.model.host.id) { button = 'Update'}
       return button
     }
   },
+  mounted() {
+    axios.get(`/hosts/schema?readonly=${this.readonly}`, {withCredentials: true})
+      .then(response => this.schema = response.data)
+    },
   methods: {
-    submitOrganization() {
-      if(this.model.organization.id) {
+    submitHost() {
+      if(this.model.host.id) {
         // update
         axios
-        .put(`/organizations/${this.model.organization.id}.json`, this.model)
+        .put(`/hosts/${this.model.host.id}.json`, this.model)
         .then(response => {
           let e = response.data
-          this.$toasted.show('Organization was successfully updated.', {type: 'success'})
+          this.$toasted.show('Host was successfully updated.', {type: 'success'})
           this.$router.go(-1)
         })
         .catch(error => {
@@ -63,11 +63,11 @@ export default {
       } else {
         // create
         axios
-        .post(`/organizations.json`, this.model)
+        .post(`/hosts.json`, this.model)
         .then(response => {
           let e = response.data
-          this.$toasted.show('Organization was successfully created.', {type: 'success'})
-          this.$router.push({ name: 'OrganizationIndexPage' })
+          this.$toasted.show('Host was successfully created.', {type: 'success'})
+          this.$router.push({ name: 'HostIndexPage' })
         })
         .catch(error => {
           console.error(error)

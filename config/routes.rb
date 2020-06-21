@@ -1,11 +1,17 @@
 Rails.application.routes.draw do
   resources :certificate_applications
   resources :organizations do
+    collection do
+      get 'schema'
+    end
     member do
       get 'dup'
     end
   end
   resources :hosts do
+    collection do
+      get 'schema'
+    end
     resources :certificates, shallow: true
   end
   devise_for :users

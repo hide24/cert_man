@@ -69,6 +69,112 @@ class OrganizationsController < ApplicationController
     render action: 'new'
   end
 
+  # GET /organization/schema
+  def schema
+    readonly = (params[:readonly] == "true")
+    organization_schema = {
+      groups: [
+        {
+          legend: 'Organization Info',
+          fields: [
+            {
+              type: "input",
+              inputType: "text",
+              label: "Name",
+              model: "organization.name",
+              inputName: "organization[name]",
+              readonly: readonly,
+              featured: true,
+              required: true,
+              disabled: false,
+              validator: "string"
+            },
+          ]
+        },
+        {
+          legend: 'Domain Name Info',
+          fields: [
+            {
+              type: "input",
+              inputType: "text",
+              label: "Country",
+              model: "organization.country",
+              inputName: "organization[country]",
+              readonly: readonly,
+              featured: true,
+              required: true,
+              disabled: false,
+              placeholder: "",
+              validator: "string"
+            }, {
+              type: "input",
+              inputType: "text",
+              label: "state",
+              model: "organization.state",
+              inputName: "organization[state]",
+              readonly: readonly,
+              featured: true,
+              required: true,
+              disabled: false,
+              placeholder: "",
+              validator: "string"
+            }, {
+              type: "input",
+              inputType: "text",
+              label: "locality",
+              model: "organization.locality",
+              inputName: "organization[locality]",
+              readonly: readonly,
+              featured: true,
+              required: true,
+              disabled: false,
+              placeholder: "",
+              validator: "string"
+            }, {
+              type: "input",
+              inputType: "text",
+              label: "Organization",
+              model: "organization.organization",
+              inputName: "organizationorganization",
+              readonly: readonly,
+              featured: true,
+              required: true,
+              disabled: false,
+              placeholder: "",
+              validator: "string"
+            }, {
+              type: "input",
+              inputType: "text",
+              label: "Organizational Unit",
+              model: "organization.unit",
+              inputName: "organization[unit]",
+              readonly: readonly,
+              featured: true,
+              required: false,
+              disabled: false,
+              placeholder: "",
+              validator: "string"
+            }, {
+              type: "input",
+              inputType: "text",
+              label: "Mail",
+              model: "organization.mail",
+              inputName: "organization[mail]",
+              readonly: readonly,
+              featured: true,
+              required: false,
+              disabled: false,
+              placeholder: "",
+              validator: "string"
+            }
+          ],
+        },
+      ]
+    }
+
+    render json: organization_schema
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_organization

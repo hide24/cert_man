@@ -2,10 +2,10 @@
   <div id="app">
     <div class="row">
       <div class="col-sm">
-        <b-button :to="{ name: 'OrganizationNewPage' }" variant="primary">Create New Organization</b-button>
+        <b-button :to="{ name: 'HostNewPage' }" variant="primary">Create New Host</b-button>
       </div>
       <div class="col-sm">
-        <div>search: <input type="text" v-model="select" placeholder="Organization Name"></div>
+        <div>search: <input type="text" v-model="select" placeholder="Host Name"></div>
       </div>
       <div class="col-sm">
         <div class="float-right">
@@ -20,26 +20,28 @@
       </ul>
     </div>
     <table class="table table-striped table-bordered">
-      <tbody v-if="organizations.length">
+      <tbody v-if="hosts.length">
         <tr>
           <th>ID</th>
-          <th>Name</th>
-          <th>DN</th>
+          <th>Host Name</th>
+          <th>Owner</th>
+          <th>Certificate</th>
           <th>&nbsp;</th>
         </tr>
-        <tr v-for="o in getItems">
-          <td><router-link :to="{ name: 'OrganizationDetailPage', params: { id: o.id } }">{{ o.id }}</router-link></td>
-          <td><router-link :to="{ name: 'OrganizationDetailPage', params: { id: o.id } }">{{ o.name }}</router-link></td>
-          <td>{{ o | to_dn }}</td>
+        <tr v-for="h in getItems">
+          <td><router-link :to="{ name: 'HostDetailPage', params: { id: h.id } }">{{ h.id }}</router-link></td>
+          <td><router-link :to="{ name: 'HostDetailPage', params: { id: h.id } }">{{ h.hostname }}</router-link></td>
+          <td>{{ h.owner_name }}</td>
+          <td>&nbsp;</td>
           <td>
-            <b-button :to="{ name: 'OrganizationDetailPage', params: { id: o.id } }" variant="outline-primary">View</b-button>
-            <b-button :to="{ name: 'OrganizationEditPage', params: { id: o.id } }" variant="outline-secondary">Edit</b-button>
-            <b-button v-confirm="confirmDelete(o)" variant="outline-danger">Delete</b-button>
+            <b-button :to="{ name: 'HostDetailPage', params: { id: h.id } }" variant="outline-primary">View</b-button>
+            <b-button :to="{ name: 'HostEditPage', params: { id: h.id } }" variant="outline-secondary">Edit</b-button>
+            <b-button v-confirm="confirmDelete(h)" variant="outline-danger">Delete</b-button>
           </td>
         </tr>
       </tbody>
       <tbody v-else>
-        <tr><td colspan="4">No Organization Match.</td></tr>
+        <tr><td colspan="4">No Host Match.</td></tr>
       </tbody>
     </table>
 
@@ -63,7 +65,7 @@ export default {
   data() {
     return {
       errors: '',
-      organizations: [],
+      hosts: [],
       select: '',
       parPage: 5,
       currentPage: this.currentPage = this.$route.query.page || 1
@@ -73,14 +75,14 @@ export default {
     getItems() {
       let current = this.currentPage * this.parPage
       let start = current - this.parPage
-      return this.organizations.slice(start, current)
+      return this.hosts.slice(start, current)
     },
     getPageCount() {
-      return Math.ceil(this.organizations.length / this.parPage)
+      return Math.ceil(this.hosts.length / this.parPage)
     },
   },
   methods: {
-    confirmDelete(organization) {
+    confirmDelete(host) {
       let self = this
       return {
         loader: true,
@@ -89,29 +91,31 @@ export default {
         cancelText: 'Cancel',
         backdropClose: true,
         ok(dialog) {
-          self.deleteOrganization(dialog, organization)
+          self.deleteHost(dialog, host)
         },
         cancel() {
           console.log('canceled.')
         },
         message: {
-          title: 'Delete Organization',
-          body: 'Are you sure? <br><br><strong>Name:</strong> '+ organization.name
+          title: 'Delete Host',
+          body: 'Are you sure? <br><br><strong>Name:</strong> '+ host.hostname
         }
       }
     },
-    updateOrganization() {
-      axios.get(`/organizations.json?query=${this.select}`, {withCredentials: true})
-        .then(response => this.organizations = response.data)
+    updateHost() {
+      axios.get(`/hosts.json?query=${this.select}`, {withCredentials: true})
+        .then(response => {
+          this.hosts = response.data
+        })
     },
-    deleteOrganization(dialog, organization) {
-      console.log(`executed.0.${organization.id}`)
-      if(organization.id > 0){
+    deleteHost(dialog, host) {
+      console.log(`executed.0.${host.id}`)
+      if(host.id > 0){
         axios
-          .delete(`/organizations/${organization.id}.json`)
+          .delete(`/hosts/${host.id}.json`)
           .then(response => {
-            this.updateOrganization()
-            this.$toasted.show('Organization was successfully deleted.', {type: 'success'})
+            this.updateHost()
+            this.$toasted.show('Host was successfully deleted.', {type: 'success'})
             dialog.close()
           })
           .catch(error => {
@@ -127,7 +131,7 @@ export default {
     changePage(pageNum) {
       this.currentPage = Number(pageNum)
       this.$router.push({
-        name: 'OrganizationIndexPage',
+        name: 'HostIndexPage',
         query: this.buildQuery(),
       })
     },
@@ -139,30 +143,18 @@ export default {
     },
   },
   mounted() {
-    this.updateOrganization()
+    this.updateHost()
   },
   watch:{
     select() {
       this.currentPage = 1
-      this.updateOrganization()
+      this.updateHost()
       this.$router.push({
-        name: 'OrganizationIndexPage',
+        name: 'HostIndexPage',
         query: this.buildQuery(),
       })
     },
   },
-  filters: {
-    to_dn(o) {
-      var dn_str = ""
-      if(o.country) { dn_str += `/C=${o.country}`}
-      if(o.state) { dn_str += `/ST=${o.state}`}
-      if(o.locality) { dn_str += `/L=${o.locality}`}
-      if(o.county) { dn_str += `/C=${o.country}`}
-      if(o.organization) { dn_str += `/O=${o.organization}`}
-      if(o.unit) { dn_str += `/OU=${o.unit}`}
-      return dn_str
-    }
-  }
 }
 </script>
 

@@ -61,6 +61,82 @@ class HostsController < ApplicationController
     end
   end
 
+  # GET /hosts/schema
+  def schema
+    readonly = (params[:readonly] == "true")
+    organizations = Organization.all.map do |o|
+      {id: o.id, name: o.name}
+    end
+    host_schema = {
+      groups: [
+        {
+          legend: 'Host Info',
+          fields: [
+            {
+              type: "input",
+              inputType: "text",
+              label: "HostName",
+              model: "host.hostname",
+              inputName: "host[hostname]",
+              readonly: readonly,
+              featured: true,
+              required: true,
+              disabled: false,
+              validator: "string"
+            },
+            {
+              type: "select",
+              label: "Organization",
+              model: "host.organization_id",
+              inputName: "host[organization_id]",
+              readonly: readonly,
+              featured: true,
+              required: true,
+              disabled: false,
+              validator: "required",
+              values: organizations,
+              selectOptions: {
+                noneSelectedText: "Select Organization",
+              }
+            },
+          ]
+        },
+        {
+          legend: 'Owner Info',
+          fields: [
+            {
+              type: "input",
+              inputType: "text",
+              label: "Name",
+              model: "host.owner_name",
+              inputName: "host[owner_name]",
+              readonly: readonly,
+              featured: true,
+              required: true,
+              disabled: false,
+              placeholder: "",
+              validator: "string"
+            }, {
+              type: "input",
+              inputType: "text",
+              label: "Mail",
+              model: "host.mail",
+              inputName: "host[mail]",
+              readonly: readonly,
+              featured: true,
+              required: true,
+              disabled: false,
+              placeholder: "",
+              validator: "email"
+            },
+          ]
+        }
+      ]
+    }
+
+    render json: host_schema
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_host

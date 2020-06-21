@@ -15,7 +15,7 @@ export default {
       model: {
         organization: {
         }
-      }
+      },
     }
   },
   mounted() {

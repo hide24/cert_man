@@ -12,6 +12,10 @@ import OrganizationIndexPage from 'components/OrganizationIndexPage.vue'
 import OrganizationDetailPage from 'components/OrganizationDetailPage.vue'
 import OrganizationNewPage from 'components/OrganizationNewPage.vue'
 import OrganizationEditPage from 'components/OrganizationEditPage.vue'
+import HostIndexPage from 'components/HostIndexPage.vue'
+import HostDetailPage from 'components/HostDetailPage.vue'
+import HostNewPage from 'components/HostNewPage.vue'
+import HostEditPage from 'components/HostEditPage.vue'
 
 import axios from 'axios';
 import { csrfToken } from '@rails/ujs'
@@ -38,6 +42,19 @@ const router = new VueRouter({
     { path: '/organizations/:id(\\d+)/edit',
       name: 'OrganizationEditPage',
       component: OrganizationEditPage },
+      
+    { path: '/hosts',
+      name: 'HostIndexPage',
+      component: HostIndexPage },
+    { path: '/hosts/new',
+      name: 'HostNewPage',
+      component: HostNewPage },
+    { path: '/hosts/:id(\\d+)',
+      name: 'HostDetailPage',
+      component: HostDetailPage },
+    { path: '/hosts/:id(\\d+)/edit',
+      name: 'HostEditPage',
+      component: HostEditPage },
   ]
 })
 
