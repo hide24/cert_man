@@ -79,5 +79,36 @@ class Certificate < ApplicationRecord
       'apache2.4', nil
     ].join("\t")
   end
+
+  def not_after
+    certificate.not_after
+  rescue
+    false
+  end
+
+  def not_before
+    certificate.not_before
+  rescue
+    false
+  end
+
+  def expired?
+    !(not_before .. not_after).cover?(Time.now)
+  rescue
+    false
+  end
+
+  def near_expire?
+    not_after - Time.now < 2.month
+  rescue
+    false
+  end
+
+  def expiration_date
+    [not_before.localtime.strftime('%Y/%m/%d'),
+      not_after.localtime.strftime('%Y/%m/%d')].join(' - ')
+  rescue
+    'no valid certificate'
+  end
 end
 

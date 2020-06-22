@@ -58,4 +58,59 @@ class CertificateTest < ActiveSupport::TestCase
     @cert2.host = @host
     assert_equal tsv_value2, @cert2.to_tsv
   end
+
+  test "should return not_after" do
+    @cert1 = certificates(:one)
+    @cert2 = certificates(:two)
+    @valid_to = Time.parse('2030-03-12 07:23:25 UTC')
+    assert_equal false, @cert1.not_after
+    assert_equal @valid_to, @cert2.not_after
+  end
+
+  test "should return not_before" do
+    @cert1 = certificates(:one)
+    @cert2 = certificates(:two)
+    @valid_from = Time.parse('2020-06-12 07:23:25 UTC')
+    assert_equal false, @cert1.not_before
+    assert_equal @valid_from, @cert2.not_before
+  end
+
+  test "should check expiration(valid)" do
+    @cert = certificates(:two)
+    @valid_date = Time.parse('2020-07-12 07:23:25 UTC')
+    Time.stub(:now, @valid_date) do
+      assert_equal false, @cert.expired?
+    end
+  end
+
+  test "should check expiration(expired)" do
+    @cert = certificates(:two)
+    @valid_date = Time.parse('2040-07-12 07:23:25 UTC')
+    Time.stub(:now, @valid_date) do
+      assert_equal true, @cert.expired?
+    end
+  end
+
+  test "should check expiration(before)" do
+    @cert = certificates(:two)
+    @valid_date = Time.parse('2010-07-12 07:23:25 UTC')
+    Time.stub(:now, @valid_date) do
+      assert_equal true, @cert.expired?
+    end
+  end
+
+  test "should check expiration(near)" do
+    @cert = certificates(:two)
+    @valid_date = Time.parse('2030-02-12 07:23:25 UTC')
+    Time.stub(:now, @valid_date) do
+      assert_equal true, @cert.near_expire?
+    end
+  end
+
+  test "should get expiration date" do
+    @cert1 = certificates(:one)
+    @cert2 = certificates(:two)
+    assert_equal 'no valid certificate', @cert1.expiration_date
+    assert_equal '2020/06/12 - 2030/03/12', @cert2.expiration_date
+  end
 end
