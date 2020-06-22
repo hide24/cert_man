@@ -108,7 +108,19 @@ class Certificate < ApplicationRecord
     [not_before.localtime.strftime('%Y/%m/%d'),
       not_after.localtime.strftime('%Y/%m/%d')].join(' - ')
   rescue
-    'no valid certificate'
+    'in progress'
+  end
+
+  def expiration_date_class
+    if certificate.blank?
+      'warning'
+    elsif expired?
+      'danger'
+    elsif near_expire?
+      'warning'
+    else
+      'success'
+    end
   end
 end
 

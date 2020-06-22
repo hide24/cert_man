@@ -28,12 +28,12 @@
           <th>Certificate</th>
           <th>&nbsp;</th>
         </tr>
-        <tr v-for="h in getItems">
-          <td><router-link :to="{ name: 'HostDetailPage', params: { id: h.id } }">{{ h.id }}</router-link></td>
-          <td><router-link :to="{ name: 'HostDetailPage', params: { id: h.id } }">{{ h.hostname }}</router-link></td>
-          <td>{{ h.owner_name }}</td>
-          <td>&nbsp;</td>
-          <td>
+        <tr v-for="h in getItems" @click="selectHost(h.id)">
+          <td :class="{'table-primary': selectedHosts[h.id], active:active}"><router-link :to="{ name: 'HostDetailPage', params: { id: h.id } }">{{ h.id }}</router-link></td>
+          <td :class="hostRowClass(h.id)"><router-link :to="{ name: 'HostDetailPage', params: { id: h.id } }">{{ h.hostname }}</router-link></td>
+          <td :class="hostRowClass(h.id)">{{ h.owner_name }}</td>
+          <td :class="`${hostRowClass(h.id)} table-${h.certificate.expiration_date_class}`">{{ h.certificate.expiration_date }}</td>
+          <td :class="hostRowClass(h.id)">
             <b-button :to="{ name: 'HostDetailPage', params: { id: h.id } }" variant="outline-primary">View</b-button>
             <b-button :to="{ name: 'HostEditPage', params: { id: h.id } }" variant="outline-secondary">Edit</b-button>
             <b-button v-confirm="confirmDelete(h)" variant="outline-danger">Delete</b-button>
@@ -41,18 +41,20 @@
         </tr>
       </tbody>
       <tbody v-else>
-        <tr><td colspan="4">No Host Match.</td></tr>
+        <tr><td colspan="4" :class="{active:active}">No Host Match.</td></tr>
       </tbody>
     </table>
 
     <div class="row">
+      <div class="col-sm">
+        <b-button @click="createApplication()" variant="success">Create New Application</b-button>
+      </div>
       <div class="col-sm">
         <div class="float-right">
           <paginate-link :currentPage="currentPage" :pageCount="getPageCount" @changePage="changePage($event)"></paginate-link>
         </div>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -64,8 +66,10 @@ export default {
   components: { PaginateLink },
   data() {
     return {
+      active: false,
       errors: '',
       hosts: [],
+      selectedHosts: {},
       select: '',
       parPage: 5,
       currentPage: this.currentPage = this.$route.query.page || 1
@@ -109,7 +113,6 @@ export default {
         })
     },
     deleteHost(dialog, host) {
-      console.log(`executed.0.${host.id}`)
       if(host.id > 0){
         axios
           .delete(`/hosts/${host.id}.json`)
@@ -141,8 +144,47 @@ export default {
       if(this.select.length > 1) {q.select = this.select}
       return q
     },
+    selectHost(hostId) {
+      if(this.selectedHosts[hostId]) {
+        delete this.selectedHosts[hostId]
+      } else {
+        this.selectedHosts[hostId] = true
+      }
+      this.active=!this.active
+    },
+    hostRowClass(hostId) {
+      let klass = ''
+      if(this.selectedHosts[hostId]) {
+        klass = 'table-primary'
+      }
+      return klass
+    },
+    createApplication() {
+      let hostIds = Object.keys(this.selectedHosts)
+      console.log(hostIds)
+
+      if(hostIds.length < 1) {
+        this.$dialog.alert({
+          title: 'Create Application',
+          body: 'No host was selected.',
+        },{
+          okText: 'Back',
+        })
+      } else {
+        this.$dialog.confirm({
+          title: 'Create Application',
+          body: 'Are you sure?',
+        },{
+          okText: 'Continue',
+          cancelText: 'Back',
+        }).then( function() {
+          console.log('実行しました')
+        })
+      }
+    },
   },
   mounted() {
+    this.selectedHosts = {}
     this.updateHost()
   },
   watch:{

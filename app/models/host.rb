@@ -3,6 +3,8 @@ class Host < ApplicationRecord
   has_many :certificates
   belongs_to :organization
 
+  validates :hostname, uniqueness: true
+
   def x509_name
     name = OpenSSL::X509::Name.new
     organization.entries.each do |k, v|
@@ -14,5 +16,9 @@ class Host < ApplicationRecord
 
   def tsv_discription
     "CN=#{hostname}," + organization.dn(reverse: true)
+  end
+
+  def certificate
+    certificates.order('version DESC').first
   end
 end

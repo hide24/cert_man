@@ -113,4 +113,28 @@ class CertificateTest < ActiveSupport::TestCase
     assert_equal 'no valid certificate', @cert1.expiration_date
     assert_equal '2020/06/12 - 2030/03/12', @cert2.expiration_date
   end
+
+  test "should get expiration date class(valid)" do
+    @cert = certificates(:two)
+    @valid_date = Time.parse('2020-07-12 07:23:25 UTC')
+    Time.stub(:now, @valid_date) do
+      assert_equal 'success', @cert.expiration_date_class
+    end
+  end
+
+  test "should get expiration date class(warn)" do
+    @cert = certificates(:two)
+    @valid_date = Time.parse('2030-02-12 07:23:25 UTC')
+    Time.stub(:now, @valid_date) do
+      assert_equal 'warning', @cert.expiration_date_class
+    end
+  end
+
+  test "should get expiration date class(error)" do
+    @cert = certificates(:two)
+    @valid_date = Time.parse('2040-02-12 07:23:25 UTC')
+    Time.stub(:now, @valid_date) do
+      assert_equal 'danger', @cert.expiration_date_class
+    end
+  end
 end
