@@ -36,7 +36,7 @@
           <td :class="hostRowClass(h.id)">
             <b-button :to="{ name: 'HostDetailPage', params: { id: h.id } }" variant="outline-primary">View</b-button>
             <b-button :to="{ name: 'HostEditPage', params: { id: h.id } }" variant="outline-secondary">Edit</b-button>
-            <b-button v-confirm="confirmDelete(h)" variant="outline-danger">Delete</b-button>
+            <b-button @click="confirmDelete(h)" variant="outline-danger">Delete</b-button>
           </td>
         </tr>
       </tbody>
@@ -86,48 +86,41 @@ export default {
     },
   },
   methods: {
+    updateHost() {
+      axios.get(`/hosts.json?query=${this.select}`, {withCredentials: true})
+        .then(response => { this.hosts = response.data })
+    },
     confirmDelete(host) {
       let self = this
-      return {
+      this.$dialog.confirm({
+        title: 'Delete Host',
+        body: 'Are you sure? <br><br><strong>Name:</strong> '+ host.hostname
+      },{
         loader: true,
         html: true,
         okText: 'OK',
         cancelText: 'Cancel',
         backdropClose: true,
-        ok(dialog) {
-          self.deleteHost(dialog, host)
-        },
-        cancel() {
-          console.log('canceled.')
-        },
-        message: {
-          title: 'Delete Host',
-          body: 'Are you sure? <br><br><strong>Name:</strong> '+ host.hostname
-        }
-      }
-    },
-    updateHost() {
-      axios.get(`/hosts.json?query=${this.select}`, {withCredentials: true})
-        .then(response => {
-          this.hosts = response.data
-        })
+      })
+      .then(function (dialog) { self.deleteHost(dialog, host)})
     },
     deleteHost(dialog, host) {
       if(host.id > 0){
         axios
-          .delete(`/hosts/${host.id}.json`)
-          .then(response => {
-            this.updateHost()
-            this.$toasted.show('Host was successfully deleted.', {type: 'success'})
-            dialog.close()
-          })
-          .catch(error => {
-            console.error(error)
-            this.$toasted.show('Error occurred.', {type: 'error'})
-            if (error.response.data && error.response.data.errors) {
-            this.errors = error.response.data.errors;
-            }
-          })
+        .delete(`/hosts/${host.id}.json`)
+        .then(response => {
+          this.updateHost()
+          this.$toasted.show('Host was successfully deleted.', {type: 'success'})
+          this.changePage(1)
+          dialog.close()
+        })
+        .catch(error => {
+          console.error(error)
+          this.$toasted.show('Error occurred.', {type: 'error'})
+          if (error.response.data && error.response.data.errors) {
+          this.errors = error.response.data.errors;
+          }
+        })
       }
       console.log('executed.');
     },

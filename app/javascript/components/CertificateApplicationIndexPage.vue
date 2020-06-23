@@ -35,7 +35,7 @@
           <td>{{ a.updated_at }}</td>
           <td>
             <b-button :to="{ name: 'CertificateApplicationDetailPage', params: { id: a.id } }" variant="outline-primary">Detail</b-button>
-            <b-button v-confirm="confirmDelete(a)" variant="outline-danger">Delete</b-button>
+            <b-button @click="confirmDelete(a)" variant="outline-danger">Delete{{ a.id }}</b-button>
           </td>
         </tr>
       </tbody>
@@ -63,6 +63,7 @@ export default {
   components: { PaginateLink },
   data() {
     return {
+      delId: -1,
       errors: '',
       certificate_applications: [],
       select: '',
@@ -81,47 +82,42 @@ export default {
     },
   },
   methods: {
+    updateCertificateApplication() {
+      axios.get(`/certificate_applications.json?query=${this.select}`, {withCredentials: true})
+        .then(response => this.certificate_applications = response.data)
+    },
     confirmDelete(certificate_application) {
       let self = this
-      return {
+      this.$dialog.confirm({
+        title: 'Delete CertificateApplication',
+        body: 'Are you sure?'
+      },{
         loader: true,
         html: true,
         okText: 'OK',
         cancelText: 'Cancel',
         backdropClose: true,
-        ok(dialog) {
-          self.deleteCertificateApplication(dialog, certificate_application)
-        },
-        cancel() {
-          console.log('canceled.')
-        },
-        message: {
-          title: 'Delete CertificateApplication',
-          body: 'Are you sure?'
-        }
-      }
-    },
-    updateCertificateApplication() {
-      axios.get(`/certificate_applications.json?query=${this.select}`, {withCredentials: true})
-        .then(response => this.certificate_applications = response.data)
+      })
+      .then(function (dialog) { self.deleteCertificateApplication(dialog, certificate_application)})
     },
     deleteCertificateApplication(dialog, certificate_application) {
       console.log(`executed.0.${certificate_application.id}`)
       if(certificate_application.id > 0){
         axios
-          .delete(`/certificate_applications/${certificate_application.id}.json`)
-          .then(response => {
-            this.updateCertificateApplication()
-            this.$toasted.show('Application was successfully deleted.', {type: 'success'})
-            dialog.close()
-          })
-          .catch(error => {
-            console.error(error)
-            this.$toasted.show('Error occurred.', {type: 'error'})
-            if (error.response.data && error.response.data.errors) {
-            this.errors = error.response.data.errors;
-            }
-          })
+        .delete(`/certificate_applications/${certificate_application.id}.json`)
+        .then(response => {
+          this.updateCertificateApplication()
+          this.$toasted.show('Application was successfully deleted.', {type: 'success'})
+          this.changePage(1)
+          dialog.close()
+        })
+        .catch(error => {
+          console.error(error)
+          this.$toasted.show('Error occurred.', {type: 'error'})
+          if (error.response.data && error.response.data.errors) {
+          this.errors = error.response.data.errors;
+          }
+        })
       }
       console.log('executed.');
     },

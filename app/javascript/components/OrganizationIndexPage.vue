@@ -34,7 +34,7 @@
           <td>
             <b-button :to="{ name: 'OrganizationDetailPage', params: { id: o.id } }" variant="outline-primary">View</b-button>
             <b-button :to="{ name: 'OrganizationEditPage', params: { id: o.id } }" variant="outline-secondary">Edit</b-button>
-            <b-button v-confirm="confirmDelete(o)" variant="outline-danger">Delete</b-button>
+            <b-button @click="confirmDelete(o)" variant="outline-danger">Delete</b-button>
           </td>
         </tr>
       </tbody>
@@ -80,47 +80,42 @@ export default {
     },
   },
   methods: {
+    updateOrganization() {
+      axios.get(`/organizations.json?query=${this.select}`, {withCredentials: true})
+        .then(response => this.organizations = response.data)
+    },
     confirmDelete(organization) {
       let self = this
-      return {
+      this.$dialog.confirm({
+        title: 'Delete Organization',
+        body: 'Are you sure? <br><br><strong>Name:</strong> '+ organization.name
+      },{
         loader: true,
         html: true,
         okText: 'OK',
         cancelText: 'Cancel',
         backdropClose: true,
-        ok(dialog) {
-          self.deleteOrganization(dialog, organization)
-        },
-        cancel() {
-          console.log('canceled.')
-        },
-        message: {
-          title: 'Delete Organization',
-          body: 'Are you sure? <br><br><strong>Name:</strong> '+ organization.name
-        }
-      }
-    },
-    updateOrganization() {
-      axios.get(`/organizations.json?query=${this.select}`, {withCredentials: true})
-        .then(response => this.organizations = response.data)
+      })
+      .then(function (dialog) { self.deleteOrganization(dialog, organization)})
     },
     deleteOrganization(dialog, organization) {
       console.log(`executed.0.${organization.id}`)
       if(organization.id > 0){
         axios
-          .delete(`/organizations/${organization.id}.json`)
-          .then(response => {
-            this.updateOrganization()
-            this.$toasted.show('Organization was successfully deleted.', {type: 'success'})
-            dialog.close()
-          })
-          .catch(error => {
-            console.error(error)
-            this.$toasted.show('Error occurred.', {type: 'error'})
-            if (error.response.data && error.response.data.errors) {
-            this.errors = error.response.data.errors;
-            }
-          })
+        .delete(`/organizations/${organization.id}.json`)
+        .then(response => {
+          this.updateOrganization()
+          this.$toasted.show('Organization was successfully deleted.', {type: 'success'})
+          this.changePage(1)
+          dialog.close()
+        })
+        .catch(error => {
+          console.error(error)
+          this.$toasted.show('Error occurred.', {type: 'error'})
+          if (error.response.data && error.response.data.errors) {
+          this.errors = error.response.data.errors;
+          }
+        })
       }
       console.log('executed.');
     },
