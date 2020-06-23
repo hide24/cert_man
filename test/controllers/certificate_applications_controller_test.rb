@@ -4,6 +4,10 @@ class CertificateApplicationsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @certificate_application = certificate_applications(:one)
     @user = users(:one)
+    @organization = organizations(:one)
+    @host = hosts(:one)
+    @host.organization = @organization
+    @host.save
   end
 
   test "should get index" do
@@ -19,6 +23,14 @@ class CertificateApplicationsControllerTest < ActionDispatch::IntegrationTest
   test "should create certificate_application" do
     assert_difference('CertificateApplication.count') do
       post certificate_applications_url, params: { certificate_application: { finished: @certificate_application.finished, user_id: @user.id } }
+    end
+
+    assert_redirected_to certificate_application_url(CertificateApplication.last)
+  end
+
+  test "should create certificate_application with host_ids" do
+    assert_difference('CertificateApplication.count') do
+      post certificate_applications_url, params: { certificate_application: { finished: @certificate_application.finished, user_id: @user.id, host_id: [@host.id] } }
     end
 
     assert_redirected_to certificate_application_url(CertificateApplication.last)

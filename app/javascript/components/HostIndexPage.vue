@@ -160,6 +160,7 @@ export default {
       return klass
     },
     createApplication() {
+      let self = this
       let hostIds = Object.keys(this.selectedHosts)
       console.log(hostIds)
 
@@ -177,10 +178,21 @@ export default {
         },{
           okText: 'Continue',
           cancelText: 'Back',
-        }).then( function() {
-          console.log('実行しました')
         })
+        .then(function () { self.createApplicationDo(hostIds)})
       }
+    },
+    createApplicationDo(hostIds) {
+      let self = this
+      let body = {certificate_application: { host_id: hostIds }}
+      axios.post('/certificate_applications.json', body)
+      .then(function () {
+        self.$toasted.show('Application was successfully created.', {type: 'success'})
+        self.$router.push({ name: 'CertificateApplicationIndexPage' })
+      })
+      .catch(function () {
+        self.$toasted.show('Error occurred.', {type: 'error'})
+      })
     },
   },
   mounted() {

@@ -122,5 +122,9 @@ class Certificate < ApplicationRecord
       'success'
     end
   end
+
+  def hostname
+    host.hostname
+  end
 end
 

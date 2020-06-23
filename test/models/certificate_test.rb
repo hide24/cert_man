@@ -110,7 +110,7 @@ class CertificateTest < ActiveSupport::TestCase
   test "should get expiration date" do
     @cert1 = certificates(:one)
     @cert2 = certificates(:two)
-    assert_equal 'no valid certificate', @cert1.expiration_date
+    assert_equal 'in progress', @cert1.expiration_date
     assert_equal '2020/06/12 - 2030/03/12', @cert2.expiration_date
   end
 

@@ -1,10 +1,10 @@
 class CertificateApplicationsController < ApplicationController
-  before_action :set_certificate_application, only: [:show, :edit, :update, :destroy]
+  before_action :set_certificate_application, only: [:show, :edit, :update, :destroy, :certificates]
 
   # GET /certificate_applications
   # GET /certificate_applications.json
   def index
-    @certificate_applications = CertificateApplication.all
+    @certificate_applications = CertificateApplication.order('created_at DESC')
   end
 
   # GET /certificate_applications/1
@@ -25,6 +25,9 @@ class CertificateApplicationsController < ApplicationController
   # POST /certificate_applications.json
   def create
     @certificate_application = CertificateApplication.new(certificate_application_params)
+    if certificate_application_params.key?(:host_id)
+      @certificate_application.register(certificate_application_params[:host_id])
+    end
 
     respond_to do |format|
       if @certificate_application.save
@@ -61,6 +64,13 @@ class CertificateApplicationsController < ApplicationController
     end
   end
 
+  # GET /certificate_applications/1/certificates
+  # GET /certificate_applications/1/certificates.json
+  def certificates
+    @certificates = @certificate_application.certificates
+    render 'certificates/index'
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_certificate_application
@@ -69,6 +79,6 @@ class CertificateApplicationsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def certificate_application_params
-      params.require(:certificate_application).permit(:user_id, :finished)
+      params.require(:certificate_application).permit(:user_id, :finished, host_id: [])
     end
 end

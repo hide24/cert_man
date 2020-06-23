@@ -16,6 +16,8 @@ import HostIndexPage from 'components/HostIndexPage.vue'
 import HostDetailPage from 'components/HostDetailPage.vue'
 import HostNewPage from 'components/HostNewPage.vue'
 import HostEditPage from 'components/HostEditPage.vue'
+import CertificateApplicationIndexPage from 'components/CertificateApplicationIndexPage.vue'
+import CertificateApplicationDetailPage from 'components/CertificateApplicationDetailPage.vue'
 
 import axios from 'axios';
 import { csrfToken } from '@rails/ujs'
@@ -55,6 +57,13 @@ const router = new VueRouter({
     { path: '/hosts/:id(\\d+)/edit',
       name: 'HostEditPage',
       component: HostEditPage },
+
+    { path: '/applications',
+      name: 'CertificateApplicationIndexPage',
+      component: CertificateApplicationIndexPage },
+    { path: '/applications/:id(\\d+)',
+      name: 'CertificateApplicationDetailPage',
+      component: CertificateApplicationDetailPage },
   ]
 })
 

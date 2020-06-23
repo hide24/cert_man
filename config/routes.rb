@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
-  resources :certificate_applications
+  resources :certificate_applications do
+    member do
+      get 'certificates'
+    end
+  end
   resources :organizations do
     collection do
       get 'schema'

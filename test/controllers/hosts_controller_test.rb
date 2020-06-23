@@ -18,7 +18,7 @@ class HostsControllerTest < ActionDispatch::IntegrationTest
 
   test "should create host" do
     assert_difference('Host.count') do
-      post hosts_url, params: { host: { hostname: @host.hostname, organization_id: @organization.id } }
+      post hosts_url, params: { host: { hostname: 'another.example.com', organization_id: @organization.id } }
     end
 
     assert_redirected_to host_url(Host.last)

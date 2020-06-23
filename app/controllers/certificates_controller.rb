@@ -5,7 +5,7 @@ class CertificatesController < ApplicationController
   # GET /hosts/:host_id/certificates.json
   def index
     @host = Host.find(params[:host_id])
-    @certificates = Certificate.where(host_id: @host)
+    @certificates = Certificate.where(host_id: @host).order('version DESC')
   end
 
   # GET /certificates/1
