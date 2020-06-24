@@ -8,6 +8,11 @@ class CertificateApplicationsControllerTest < ActionDispatch::IntegrationTest
     @host = hosts(:one)
     @host.organization = @organization
     @host.save
+    @certificate = certificates(:one)
+    @certificate.host = @host
+    @certificate.save
+    @certificate_application.certificates << @certificate
+    @certificate_application.save
   end
 
   test "should get index" do
@@ -57,5 +62,16 @@ class CertificateApplicationsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to certificate_applications_url
+  end
+
+  test "should check uploaded file" do
+    post upload_certificate_application_url(@certificate_application), params: { certificate_application: {file: [fixture_file_upload('files/one.cer')]} }
+    assert_response :success
+  end
+
+  test "should check uploaded file(json)" do
+    post upload_certificate_application_url(@certificate_application), 
+      params: { certificate_application: {file: [fixture_file_upload('files/one.cer'), fixture_file_upload('files/invalid.cer')]}, format: 'json' }
+    assert_equal (file_fixture('upload_result.json').read % @certificate.id), @response.body
   end
 end

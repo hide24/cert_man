@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<h1>File Uploaded</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Filename</th>
+      <th>Hostname</th>
+      <th>&nbsp</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @checked_files.each do |checked_file| %>
+      <tr>
+        <td><%= checked_file[:filename] %></td>
+        <td><%= checked_file[:hostname] %></td>
+        <%if checked_file[:status] == 'success' -%>
+        <td><%= link_to 'Execute', certificate_path(checked_file[:certificate_id]), method: :put,
+          params: { body: { certificate: checked_file[:certificate_id] }} %></td>
+        <% else -%>
+        <td class="error">
+          <% checked_file[:errors].each do |error| -%>
+          <%= error %><br>
+          <% end -%>
+        </td>
+        <% end -%>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>

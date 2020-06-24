@@ -18,4 +18,29 @@ class CertificateApplication < ApplicationRecord
       self.certificates.build(host_id: host_id)
     end
   end
+
+  def check_uploaded_file(file)
+    errors = []
+    upload_certificate = nil
+    begin
+      upload_certificate = OpenSSL::X509::Certificate.new(file)
+    rescue
+      errors << 'this is not X509 Certification.'
+      return {certificate: nil, errors: errors, status: 'error'}
+    end
+
+    csr = certificates.select{|c| c.certificate_request.subject == upload_certificate.subject}.first
+
+    unless csr
+      errors << 'There is no applicatable CSR.'
+      return {certificate: nil, errors: errors, status: 'error'}
+    end
+
+    unless csr.certificate_key.public_key.to_s == upload_certificate.public_key.to_s
+      errors << 'RSA public key does not match.'
+      return {certificate: csr, errors: errors, status: 'error'}
+    end
+
+    {certificate: csr, errors: errors, status: 'success'}
+  end
 end

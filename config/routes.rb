@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :certificate_applications do
     member do
       get 'certificates'
+      post 'upload'
     end
   end
   resources :organizations do

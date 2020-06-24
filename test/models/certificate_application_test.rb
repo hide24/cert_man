@@ -10,6 +10,11 @@ class CertificateApplicationTest < ActiveSupport::TestCase
     @host2 = hosts(:two)
     @host2.organization = @organization
     @host2.save
+    @certificate = certificates(:one)
+    @certificate.host = @host
+    @certificate.save
+    @certificate_application.certificates << @certificate
+    @certificate_application.save
   end
 
   test "should create certifications" do
@@ -54,5 +59,19 @@ class CertificateApplicationTest < ActiveSupport::TestCase
 
   test "should ignore host_id attribute when create" do
     assert_kind_of(CertificateApplication, CertificateApplication.new(host_id: @host.id))
+  end
+
+  test "shoud check uploaded file(success)" do
+    result = @certificate_application.check_uploaded_file(file_fixture('one.cer').read)
+    assert_equal @certificate.id, result[:certificate].id
+    assert_equal [], result[:errors]
+    assert_equal 'success', result[:status]
+  end
+
+  test "shoud check uploaded file(failer)" do
+    result = @certificate_application.check_uploaded_file(file_fixture('invalid.cer').read)
+    assert_nil result[:certificate]
+    assert_equal ['There is no applicatable CSR.'], result[:errors]
+    assert_equal 'error', result[:status]
   end
 end

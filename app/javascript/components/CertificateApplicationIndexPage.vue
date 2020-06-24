@@ -35,7 +35,7 @@
           <td>{{ a.updated_at }}</td>
           <td>
             <b-button :to="{ name: 'CertificateApplicationDetailPage', params: { id: a.id } }" variant="outline-primary">Detail</b-button>
-            <b-button @click="confirmDelete(a)" variant="outline-danger">Delete{{ a.id }}</b-button>
+            <b-button @click="confirmDelete(a)" variant="outline-danger">Delete</b-button>
           </td>
         </tr>
       </tbody>

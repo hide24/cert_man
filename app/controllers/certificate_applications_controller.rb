@@ -1,5 +1,5 @@
 class CertificateApplicationsController < ApplicationController
-  before_action :set_certificate_application, only: [:show, :edit, :update, :destroy, :certificates]
+  before_action :set_certificate_application, only: [:show, :edit, :update, :destroy, :certificates, :upload]
 
   # GET /certificate_applications
   # GET /certificate_applications.json
@@ -71,6 +71,25 @@ class CertificateApplicationsController < ApplicationController
     render 'certificates/index'
   end
 
+  # POST /certification_applications/1/upload
+  def upload
+    @upload_files = certificate_upliad_params[:file]
+    @checked_files = @upload_files.map do |file|
+      filename = file.original_filename
+      file_body = file.read(4096)
+      check_result = @certificate_application.check_uploaded_file(file_body)
+      {
+        certificate_id: check_result[:certificate].try(:id),
+        filename: filename,
+        hostname: check_result[:certificate].try(:host).try(:hostname),
+        subject: check_result[:certificate].try(:subject),
+        errors: check_result[:errors],
+        status: check_result[:status],
+        certificate: file_body,
+      }
+    end
+  end
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_certificate_application
@@ -80,5 +99,9 @@ class CertificateApplicationsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def certificate_application_params
       params.require(:certificate_application).permit(:user_id, :finished, host_id: [])
+    end
+
+    def certificate_upliad_params
+      params.require(:certificate_application).permit(file: [])
     end
 end

@@ -3,6 +3,7 @@
     <ul>
       <li>Created at: {{ certificate_application.created_at }}</li>
       <li>Updated at: {{ certificate_application.created_at }}</li>
+      <a :href="`/certificate_applications/${this.$route.params.id}.tsv`">download tsv</a>
     </ul>
 
     <div class="row"  v-if="getPageCount > 1">
