@@ -136,7 +136,7 @@ export default {
   mounted() {
     this.updateOrganization()
   },
-  watch:{
+  watch: {
     select() {
       this.currentPage = 1
       this.updateOrganization()

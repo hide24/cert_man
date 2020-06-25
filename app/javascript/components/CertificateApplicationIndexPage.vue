@@ -138,7 +138,7 @@ export default {
   mounted() {
     this.updateCertificateApplication()
   },
-  watch:{
+  watch: {
     select() {
       this.currentPage = 1
       this.updateCertificateApplication()

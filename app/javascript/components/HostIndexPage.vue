@@ -190,7 +190,7 @@ export default {
     this.selectedHosts = {}
     this.updateHost()
   },
-  watch:{
+  watch: {
     select() {
       this.currentPage = 1
       this.updateHost()
