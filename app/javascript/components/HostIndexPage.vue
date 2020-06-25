@@ -102,7 +102,7 @@ export default {
         cancelText: 'Cancel',
         backdropClose: true,
       })
-      .then(function (dialog) { self.deleteHost(dialog, host)})
+      .then(dialog => self.deleteHost(dialog, host))
     },
     deleteHost(dialog, host) {
       if(host.id > 0){
@@ -153,7 +153,6 @@ export default {
       return klass
     },
     createApplication() {
-      let self = this
       let hostIds = Object.keys(this.selectedHosts)
       console.log(hostIds)
 
@@ -172,19 +171,18 @@ export default {
           okText: 'Continue',
           cancelText: 'Back',
         })
-        .then(function () { self.createApplicationDo(hostIds)})
+        .then(() => this.createApplicationDo(hostIds))
       }
     },
     createApplicationDo(hostIds) {
-      let self = this
       let body = {certificate_application: { host_id: hostIds }}
       axios.post('/certificate_applications.json', body)
-      .then(function () {
-        self.$toasted.show('Application was successfully created.', {type: 'success'})
-        self.$router.push({ name: 'CertificateApplicationIndexPage' })
+      .then(() => {
+        this.$toasted.show('Application was successfully created.', {type: 'success'})
+        this.$router.push({ name: 'CertificateApplicationIndexPage' })
       })
-      .catch(function () {
-        self.$toasted.show('Error occurred.', {type: 'error'})
+      .catch(() => {
+        this.$toasted.show('Error occurred.', {type: 'error'})
       })
     },
   },

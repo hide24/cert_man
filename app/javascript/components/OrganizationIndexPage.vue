@@ -96,7 +96,7 @@ export default {
         cancelText: 'Cancel',
         backdropClose: true,
       })
-      .then(function (dialog) { self.deleteOrganization(dialog, organization)})
+      .then(dialog => self.deleteOrganization(dialog, organization))
     },
     deleteOrganization(dialog, organization) {
       console.log(`executed.0.${organization.id}`)

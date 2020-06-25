@@ -98,7 +98,7 @@ export default {
         cancelText: 'Cancel',
         backdropClose: true,
       })
-      .then(function (dialog) { self.deleteCertificateApplication(dialog, certificate_application)})
+      .then(dialog => self.deleteCertificateApplication(dialog, certificate_application))
     },
     deleteCertificateApplication(dialog, certificate_application) {
       console.log(`executed.0.${certificate_application.id}`)
