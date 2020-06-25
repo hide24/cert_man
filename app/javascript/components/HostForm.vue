@@ -6,7 +6,7 @@
           <li><font color="red">{{ e }}</font></li>
         </ul>
       </div>
-      <vue-form-generator :schema="schema" :model="model" :options="formOptions"  @validated="onValidated"></vue-form-generator>
+      <vue-form-generator :schema="schema" :model="host" :options="formOptions"  @validated="onValidated"></vue-form-generator>
       <div class="mx-auto" style="width: 200px;">
         <b-button @click="$router.go(-1)" variant="outline-secondary">Back</b-button>
         <b-button type="submit" variant="primary" :disabled="!isValid" v-if="!readonly">{{ submitButton }}</b-button>
@@ -22,9 +22,7 @@ export default {
   props: ["id", "readonly"],
   data() {
     return {
-      model: {
-        host: {},
-      },
+      host: {},
       isValid: false,
       errors: "",
       schema: {},
@@ -46,15 +44,15 @@ export default {
       .then(response => this.schema = response.data)
     if(this.id) {
       axios.get(`/hosts/${this.id}.json`, {withCredentials: true})
-        .then(response => this.model.host = response.data)
+        .then(response => this.host = response.data)
     }
   },
   methods: {
     submitHost() {
-      if(this.model.host.id) {
+      if(this.host.id) {
         // update
         axios
-        .put(`/hosts/${this.model.host.id}.json`, this.model)
+        .put(`/hosts/${this.host.id}.json`, {host: this.host})
         .then(response => {
           let e = response.data
           this.$toasted.show('Host was successfully updated.', {type: 'success'})
@@ -70,7 +68,7 @@ export default {
       } else {
         // create
         axios
-        .post(`/hosts.json`, this.model)
+        .post(`/hosts.json`, {host: this.host})
         .then(response => {
           let e = response.data
           this.$toasted.show('Host was successfully created.', {type: 'success'})
