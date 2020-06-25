@@ -1,14 +1,14 @@
 <template>
   <div id="app">
-    <organization-form :id="this.$route.params.id" :readonly="true"></organization-form>
+    <model-form modelName="organization" api="organizations" :id="this.$route.params.id" :readonly="true"></model-form>
   </div>
 </template>
 
 <script>
-import OrganizationForm from './OrganizationForm.vue'
+import ModelForm from './ModelForm.vue'
 
 export default {
-  components: { OrganizationForm },
+  components: { ModelForm },
   data() {
     return {
     }

@@ -1,14 +1,14 @@
 <template>
   <div id="app">
-    <host-form :id="this.$route.params.id"></host-form>
+    <model-form modelName="host" api="hosts" :id="this.$route.params.id"></model-form>
   </div>
 </template>
 
 <script>
-import HostForm from './HostForm.vue'
+import ModelForm from './ModelForm.vue'
 
 export default {
-  components: { HostForm },
+  components: { ModelForm },
   data() {
     return {
     }

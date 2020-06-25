@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <host-form :id="this.$route.params.id" :readonly="true"></host-form>
+    <model-form modelName="host" api="hosts" :id="this.$route.params.id" :readonly="true"></model-form>
 
     <div class="row"  v-if="getPageCount > 1">
       <div class="col-sm">
@@ -42,11 +42,11 @@
 
 <script>
 import axios from 'axios';
-import HostForm from './HostForm.vue'
+import ModelForm from './ModelForm.vue'
 import PaginateLink from './PaginateLink.vue'
 
 export default {
-  components: { HostForm, PaginateLink },
+  components: { ModelForm, PaginateLink },
   data() {
     return {
       certificates: [],

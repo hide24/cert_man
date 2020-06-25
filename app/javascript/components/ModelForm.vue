@@ -1,14 +1,14 @@
 <template>
   <div class="panel-body">
-    <form @submit.prevent="submitOrganization">
+    <form @submit.prevent="submitModel">
       <div v-if="errors.length != 0">
         <ul v-for="e in errors" :key="e">
           <li><font color="red">{{ e }}</font></li>
         </ul>
       </div>
-      <vue-form-generator :schema="schema" :model="organization" :options="formOptions"  @validated="onValidated"></vue-form-generator>
+      <vue-form-generator :schema="schema" :model="model" :options="formOptions"  @validated="onValidated"></vue-form-generator>
       <div class="mx-auto" style="width: 200px;">
-        <b-button @click="$router.go(-1)" variant="outline-secondary">Back</b-button>
+        <b-button @click="$router.go(-1)" variant="outline-secondary" v-if="!hideBack">Back</b-button>
         <b-button type="submit" variant="primary" :disabled="!isValid" v-if="!readonly">{{ submitButton }}</b-button>
       </div>
     </form>
@@ -19,25 +19,17 @@
 import axios from 'axios'
 
 export default {
-  props: ["id", "readonly"],
+  props: ["modelName", "api", "id", "readonly", "hideBack"],
   data() {
     return {
-      organization: {},
+      model: {},
       isValid: false,
       errors: "",
       schema: {},
       formOptions: {
         validateAfterLoad: true,
         validateAfterChanged: true
-      }
-    }
-  },
-  mounted() {
-    axios.get(`/organizations/schema?readonly=${this.readonly}`, {withCredentials: true})
-      .then(response => this.schema = response.data)
-    if(this.id) {
-      axios.get(`/organizations/${this.id}.json`, {withCredentials: true})
-        .then(response => this.organization = response.data)
+      },
     }
   },
   computed: {
@@ -47,15 +39,25 @@ export default {
       return button
     }
   },
+  mounted() {
+    axios.get(`/${this.api}/schema?readonly=${this.readonly}`, {withCredentials: true})
+      .then(response => this.schema = response.data)
+    if(this.id) {
+      axios.get(`/${this.api}/${this.id}.json`, {withCredentials: true})
+        .then(response => this.model = response.data)
+    }
+  },
   methods: {
-    submitOrganization() {
-      if(this.organization.id) {
+    submitModel() {
+      let body = {}
+      body[this.modelName] = this.model
+      if(this.model.id) {
         // update
         axios
-        .put(`/organizations/${this.organization.id}.json`, {organization: this.organization})
+        .put(`/${this.api}/${this.model.id}.json`, body)
         .then(response => {
           let e = response.data
-          this.$toasted.show('Organization was successfully updated.', {type: 'success'})
+          this.$toasted.show(`${this.modelName} was successfully updated.`, {type: 'success'})
           this.$router.go(-1)
         })
         .catch(error => {
@@ -68,11 +70,11 @@ export default {
       } else {
         // create
         axios
-        .post(`/organizations.json`, {organization: this.organization})
+        .post(`/${this.api}.json`, body)
         .then(response => {
           let e = response.data
-          this.$toasted.show('Organization was successfully created.', {type: 'success'})
-          this.$router.push({ name: 'OrganizationIndexPage' })
+          this.$toasted.show(`${this.modelName} was successfully created.`, {type: 'success'})
+          this.$router.go(-1)
         })
         .catch(error => {
           console.error(error)
