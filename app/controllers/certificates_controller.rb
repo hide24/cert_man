@@ -11,6 +11,11 @@ class CertificatesController < ApplicationController
   # GET /certificates/1
   # GET /certificates/1.json
   def show
+    respond_to do |format|
+      format.key {send_data(@certificate.certificate_key, filename: @certificate.hostname + '.key', disposition: 'attachment')}
+      format.csr {send_data(@certificate.certificate_request, filename: @certificate.hostname + '.csr', disposition: 'attachment')}
+      format.cer {send_data(@certificate.certificate, filename: @certificate.hostname + '.cer', disposition: 'attachment')}
+    end
   end
 
   # GET /hosts/:host_id/certificates/new

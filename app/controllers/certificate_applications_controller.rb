@@ -10,6 +10,14 @@ class CertificateApplicationsController < ApplicationController
   # GET /certificate_applications/1
   # GET /certificate_applications/1.json
   def show
+    respond_to do |format|
+      format.tsv {
+        send_data(
+          @certificate_application.certificates.map(&:to_tsv).join("\n"),
+          filename: @certificate_application.created_at.localtime.strftime('%Y%m%d-%H%M%S') + '.tsv',
+          disposition: 'attachment')
+      }
+    end
   end
 
   # GET /certificate_applications/new

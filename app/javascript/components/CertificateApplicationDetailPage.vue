@@ -18,9 +18,9 @@
           <td><router-link :to="{ name: 'CertificateApplicationDetailPage', params: { id: c.id } }">{{ c.hostname }}</router-link></td>
           <td :class="`table-${c.expiration_date_class}`">{{ c.expiration_date }}</td>
           <td>
-            <b-button href="`/certificates/${c.id}.key`" variant="outline-primary">Private Key</b-button>
-            <b-button href="`/certificates/${c.id}.csr`" variant="outline-primary">Certificate Request</b-button>
-            <b-button href="`/certificates/${c.id}.cer`" variant="outline-primary" v-if="!(c.expiration_date === 'in progress')">Certificate</b-button>
+            <b-button :href="`/certificates/${c.id}.key`" variant="outline-primary">Private Key</b-button>
+            <b-button :href="`/certificates/${c.id}.csr`" variant="outline-primary">Certificate Request</b-button>
+            <b-button :href="`/certificates/${c.id}.cer`" variant="outline-primary" v-if="!(c.expiration_date === 'in progress')">Certificate</b-button>
           </td>
         </tr>
       </tbody>
