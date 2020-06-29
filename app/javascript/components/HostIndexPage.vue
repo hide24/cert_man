@@ -59,7 +59,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
 import PaginateLink from './PaginateLink.vue'
 
 export default {

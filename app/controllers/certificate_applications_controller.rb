@@ -73,7 +73,8 @@ class CertificateApplicationsController < ApplicationController
 
   # POST /certification_applications/1/upload
   def upload
-    @upload_files = certificate_upliad_params[:file]
+#    @upload_files = certificate_upliad_params[:file]
+    @upload_files = params[:certificate_application][:file]
     @checked_files = @upload_files.map do |file|
       filename = file.original_filename
       file_body = file.read(4096)

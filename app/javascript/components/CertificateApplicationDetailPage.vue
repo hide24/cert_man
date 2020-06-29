@@ -1,11 +1,5 @@
 <template>
   <div id="app">
-    <ul>
-      <li>Created at: {{ certificate_application.created_at }}</li>
-      <li>Updated at: {{ certificate_application.created_at }}</li>
-      <a :href="`/certificate_applications/${this.$route.params.id}.tsv`">download tsv</a>
-    </ul>
-
     <div class="row"  v-if="getPageCount > 1">
       <div class="col-sm">
         <div class="float-right">
@@ -24,8 +18,9 @@
           <td><router-link :to="{ name: 'CertificateApplicationDetailPage', params: { id: c.id } }">{{ c.hostname }}</router-link></td>
           <td :class="`table-${c.expiration_date_class}`">{{ c.expiration_date }}</td>
           <td>
-            <b-button :to="{ name: 'CertificateApplicationDetailPage', params: { id: c.id } }" variant="outline-primary">View</b-button>
-            <b-button :to="{ name: 'CertificateApplicationDetailPage', params: { id: c.id } }" variant="outline-secondary">Edit</b-button>
+            <b-button href="`/certificates/${c.id}.key`" variant="outline-primary">Private Key</b-button>
+            <b-button href="`/certificates/${c.id}.csr`" variant="outline-primary">Certificate Request</b-button>
+            <b-button href="`/certificates/${c.id}.cer`" variant="outline-primary" v-if="!(c.expiration_date === 'in progress')">Certificate</b-button>
           </td>
         </tr>
       </tbody>
@@ -40,6 +35,14 @@
         </div>
       </div>
     </div>
+    <ul>
+      <li>Created at: {{ certificate_application.created_at }}</li>
+      <li>Updated at: {{ certificate_application.created_at }}</li>
+      <a :href="`/certificate_applications/${this.$route.params.id}.tsv`">download tsv</a>
+    </ul>
+    <upload-certificate-form :applicationId="this.$route.params.id" @uploaded="updateCertifications($event)"
+     v-if="isInProgress"></upload-certificate-form>
+
     <div class="mx-auto" style="width: 200px;">
       <b-button @click="$router.go(-1)" variant="outline-secondary">Back</b-button>
     </div>
@@ -48,11 +51,12 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
 import PaginateLink from './PaginateLink.vue'
+import UploadCertificateForm from './UploadCertificateForm.vue'
 
 export default {
-  components: { PaginateLink },
+  components: { PaginateLink, UploadCertificateForm },
   data() {
     return {
       certificate_application: {},
@@ -84,6 +88,15 @@ export default {
       if(this.currentPage > 1) {q.page = this.currentPage}
       if(this.select.length > 1) {q.select = this.select}
       return q
+    },
+    isInProgress() {
+      this.certificates.even(c => c.expiration_date === 'in progress')
+    },
+    updateCertifications(item) {
+      axios.get(`/certificate_applications/${this.$route.params.id}/certificates.json`, {withCredentials: true})
+      .then(response => {
+        this.certificates = response.data
+      })
     },
   },
   mounted() {

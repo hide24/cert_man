@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
 import ModelForm from './ModelForm.vue'
 import PaginateLink from './PaginateLink.vue'
 
