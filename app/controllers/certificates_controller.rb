@@ -12,9 +12,11 @@ class CertificatesController < ApplicationController
   # GET /certificates/1.json
   def show
     respond_to do |format|
-      format.key {send_data(@certificate.certificate_key, filename: @certificate.hostname + '.key', disposition: 'attachment')}
-      format.csr {send_data(@certificate.certificate_request, filename: @certificate.hostname + '.csr', disposition: 'attachment')}
-      format.cer {send_data(@certificate.certificate, filename: @certificate.hostname + '.cer', disposition: 'attachment')}
+      format.html
+      format.json
+      format.key {send_data(@certificate.certificate_key.to_s, filename: @certificate.hostname + '.key', disposition: 'attachment')}
+      format.csr {send_data(@certificate.certificate_request.to_s, filename: @certificate.hostname + '.csr', disposition: 'attachment')}
+      format.cer {send_data(@certificate.certificate.to_s, filename: @certificate.hostname + '.cer', disposition: 'attachment')}
     end
   end
 

@@ -15,7 +15,7 @@
           <th>&nbsp;</th>
         </tr>
         <tr v-for="c in getItems">
-          <td><router-link :to="{ name: 'CertificateApplicationDetailPage', params: { id: c.id } }">{{ c.hostname }}</router-link></td>
+          <td><router-link :to="{ name: 'HostDetailPage', params: { id: c.host_id } }">{{ c.hostname }}</router-link></td>
           <td :class="`table-${c.expiration_date_class}`">{{ c.expiration_date }}</td>
           <td>
             <b-button :href="`/certificates/${c.id}.key`" variant="outline-primary">Private Key</b-button>
@@ -39,8 +39,9 @@
       <li>Created at: {{ certificate_application.created_at }}</li>
       <li>Updated at: {{ certificate_application.created_at }}</li>
       <a :href="`/certificate_applications/${this.$route.params.id}.tsv`">download tsv</a>
+      <a :href="`/certificate_applications/${this.$route.params.id}.zip`">download zip</a>
     </ul>
-    <upload-certificate-form :applicationId="this.$route.params.id" @uploaded="updateCertifications($event)"
+    <upload-certificate-form :id="this.$route.params.id" @uploaded="updateCertifications($event)"
      v-if="isInProgress"></upload-certificate-form>
 
     <div class="mx-auto" style="width: 200px;">

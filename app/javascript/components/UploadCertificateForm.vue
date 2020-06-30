@@ -43,7 +43,7 @@ import axios from 'axios'
 
 export default {
   module: { axios },
-  props: [ "applicationId" ],
+  props: [ "id" ],
   data() {
     return {
       uploadedItems: [],
@@ -82,7 +82,7 @@ export default {
         }
       }
       files.forEach(file => formData.append('certificate_application[file][]', file))
-      axios.post(`/certificate_applications/${this.applicationId}/upload.json`, formData, config)
+      axios.post(`/certificate_applications/${this.id}/upload.json`, formData, config)
       .then(
         response => {
           this.updateItems(response.data)

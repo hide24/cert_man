@@ -162,6 +162,7 @@ export default {
           body: 'No host was selected.',
         },{
           okText: 'Back',
+          backdropClose: true,
         })
       } else {
         this.$dialog.confirm({
@@ -170,6 +171,7 @@ export default {
         },{
           okText: 'Continue',
           cancelText: 'Back',
+          backdropClose: true,
         })
         .then(() => this.createApplicationDo(hostIds))
       }

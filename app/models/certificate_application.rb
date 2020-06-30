@@ -43,4 +43,26 @@ class CertificateApplication < ApplicationRecord
 
     {certificate: csr, errors: errors, status: 'success'}
   end
+
+  def to_tsv
+    certificates.map(&:to_tsv).join("\n")
+  end
+
+  def basename
+    created_at.localtime.strftime('%Y%m%d-%H%M%S')
+  end
+
+  def to_zip
+    buffer = Zip::OutputStream.write_buffer do |zos|
+      certificates.each do |certificate|
+        zos.put_next_entry(certificate.hostname + '.key')
+        zos.write(certificate.certificate_key.to_s)
+        if certificate.certificate.present?
+          zos.put_next_entry(certificate.hostname + '.cer')
+          zos.write(certificate.certificate.to_s)
+        end
+      end
+    end
+    buffer.string
+  end
 end

@@ -74,4 +74,8 @@ class CertificateApplicationTest < ActiveSupport::TestCase
     assert_equal ['There is no applicatable CSR.'], result[:errors]
     assert_equal 'error', result[:status]
   end
+
+  test "should create file basename" do
+    assert_match /[-\w]+/, @certificate_application.basename
+  end
 end
