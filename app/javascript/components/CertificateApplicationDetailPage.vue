@@ -19,8 +19,8 @@
           <td :class="`table-${c.expiration_date_class}`">{{ c.expiration_date }}</td>
           <td>
             <b-button :href="`/certificates/${c.id}.key`" variant="outline-primary">Private Key</b-button>
-            <b-button :href="`/certificates/${c.id}.csr`" variant="outline-primary">Certificate Request</b-button>
-            <b-button :href="`/certificates/${c.id}.cer`" variant="outline-primary" v-if="!(c.expiration_date === 'in progress')">Certificate</b-button>
+            <b-button :href="`/certificates/${c.id}.csr`" variant="outline-secondary" v-if="c.expiration_date === 'in progress'">Certificate Request</b-button>
+            <b-button :href="`/certificates/${c.id}.cer`" variant="outline-primary" v-else>Certificate</b-button>
           </td>
         </tr>
       </tbody>
@@ -38,8 +38,8 @@
     <ul>
       <li>Created at: {{ certificate_application.created_at }}</li>
       <li>Updated at: {{ certificate_application.created_at }}</li>
-      <a :href="`/certificate_applications/${this.$route.params.id}.tsv`">download tsv</a>
-      <a :href="`/certificate_applications/${this.$route.params.id}.zip`">download zip</a>
+      <b-button :href="`/certificate_applications/${this.$route.params.id}.tsv`" variant="outline-primary">Download Application tsv</b-button>
+      <b-button :href="`/certificate_applications/${this.$route.params.id}.zip`" variant="outline-primary">Download Certificate zip</b-button>
     </ul>
     <upload-certificate-form :id="this.$route.params.id" @uploaded="updateCertifications($event)"
      v-if="isInProgress"></upload-certificate-form>

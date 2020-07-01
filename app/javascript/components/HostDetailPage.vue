@@ -20,8 +20,9 @@
           <td><router-link :to="{ name: 'HostDetailPage', params: { id: c.id } }">{{ c.version }}</router-link></td>
           <td :class="`table-${c.expiration_date_class}`">{{ c.expiration_date }}</td>
           <td>
-            <b-button :to="{ name: 'HostDetailPage', params: { id: c.id } }" variant="outline-primary">View</b-button>
-            <b-button :to="{ name: 'HostEditPage', params: { id: c.id } }" variant="outline-secondary">Edit</b-button>
+            <b-button :href="`/certificates/${c.id}.key`" variant="outline-primary">Private Key</b-button>
+            <b-button :href="`/certificates/${c.id}.csr`" variant="outline-secondary" v-if="c.expiration_date === 'in progress'">Certificate Request</b-button>
+            <b-button :href="`/certificates/${c.id}.cer`" variant="outline-primary" v-else>Certificate</b-button>
           </td>
         </tr>
       </tbody>

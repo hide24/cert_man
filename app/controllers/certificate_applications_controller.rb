@@ -88,8 +88,8 @@ class CertificateApplicationsController < ApplicationController
       {
         certificate_id: check_result[:certificate].try(:id),
         filename: filename,
-        hostname: check_result[:certificate].try(:host).try(:hostname),
-        subject: check_result[:certificate].try(:subject),
+        hostname: (check_result[:certificate].host.hostname rescue ''),
+        subject: (check_result[:certificate].certificate_request.subject.to_s rescue ''),
         errors: check_result[:errors],
         status: check_result[:status],
         certificate: file_body,

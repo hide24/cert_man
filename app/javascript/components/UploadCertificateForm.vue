@@ -16,20 +16,16 @@
             <th>Filename</th>
             <th>Hostname</th>
             <th>Subject</th>
-            <th>Expiration Date</th>
             <th>&nbsp;</th>
           </tr>
           <tr v-for="item in uploadedItems">
             <td>{{ item.filename }}</td>
-            <td v-if="item.errors" colspan="3">{{ item.errors[0] }}</td>
-            <td v-if="!item.errors">{{ item.subject }}</td>
-            <td v-if="!item.errors">{{ item.hostname }}</td>
-            <td v-if="!item.errors">{{ item.expiration_date }}
-              <p v-for="err in item.errros">{{ err }}</p>
-            </td>
+            <td v-if="item.status==='error'" colspan="2">{{ item.errors[0] }}</td>
+            <td v-if="item.status==='success'">{{ item.hostname }}</td>
+            <td v-if="item.status==='success'">{{ item.subject }}</td>
             <td>
-              <b-button @click="confirmApply(item)" v-if="!item.errors" variant="outline-primary">Apply</b-button>
-              <b-button @click="confirmDelete(item)" variant="outline-danger">Delete</b-button>
+              <b-button @click="doApply(item)" v-if="item.status==='success'" variant="outline-primary">Apply</b-button>
+              <b-button @click="doDelete(item)" variant="outline-danger">Delete</b-button>
             </td>
           </tr>
         </tbody>
@@ -95,8 +91,9 @@ export default {
         this.uploadedItems.push(item)
       })
     },
-    confirmApply(item) {
-      axios.put(`/certificates/${item.certificate_id}.json`, { certificate: item.certificate })
+    doApply(item) {
+      const body = { certificate: { certificate: item.certificate } }
+      axios.put(`/certificates/${item.certificate_id}.json`, body)
       .then(
         response => {
           this.uploadedItems = this.uploadedItems.filter(i => !(i.filename === item.filename))
@@ -104,7 +101,7 @@ export default {
         }
       )
     },
-    confirmDelete(item) {
+    doDelete(item) {
       this.uploadedItems = this.uploadedItems.filter(i => !(i.filename === item.filename))
     },
   },
