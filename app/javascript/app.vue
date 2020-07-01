@@ -8,6 +8,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
+import Layout from 'components/Layout.vue'
 import OrganizationIndexPage from 'components/OrganizationIndexPage.vue'
 import OrganizationDetailPage from 'components/OrganizationDetailPage.vue'
 import OrganizationNewPage from 'components/OrganizationNewPage.vue'
@@ -27,43 +28,47 @@ import VueFormGenerator from "vue-form-generator"
 import "vue-form-generator/dist/vfg.css"
 Vue.component("VueFormGenerator", VueFormGenerator.component)
 
-
 const router = new VueRouter({
   routes: [
     { path: '/',
-      component: OrganizationIndexPage  },
-    { path: '/organizations',
-      name: 'OrganizationIndexPage',
-      component: OrganizationIndexPage },
-    { path: '/organizations/new',
-      name: 'OrganizationNewPage',
-      component: OrganizationNewPage },
-    { path: '/organizations/:id(\\d+)',
-      name: 'OrganizationDetailPage',
-      component: OrganizationDetailPage },
-    { path: '/organizations/:id(\\d+)/edit',
-      name: 'OrganizationEditPage',
-      component: OrganizationEditPage },
-      
-    { path: '/hosts',
-      name: 'HostIndexPage',
-      component: HostIndexPage },
-    { path: '/hosts/new',
-      name: 'HostNewPage',
-      component: HostNewPage },
-    { path: '/hosts/:id(\\d+)',
-      name: 'HostDetailPage',
-      component: HostDetailPage },
-    { path: '/hosts/:id(\\d+)/edit',
-      name: 'HostEditPage',
-      component: HostEditPage },
+      component: Layout,
+      children: [
+        { path: '',
+          component: OrganizationIndexPage  },
+        { path: 'organizations',
+          name: 'OrganizationIndexPage',
+          component: OrganizationIndexPage },
+        { path: 'organizations/new',
+          name: 'OrganizationNewPage',
+          component: OrganizationNewPage },
+        { path: 'organizations/:id(\\d+)',
+          name: 'OrganizationDetailPage',
+          component: OrganizationDetailPage },
+        { path: '/organizations/:id(\\d+)/edit',
+          name: 'OrganizationEditPage',
+          component: OrganizationEditPage },
+          
+        { path: 'hosts',
+          name: 'HostIndexPage',
+          component: HostIndexPage },
+        { path: 'hosts/new',
+          name: 'HostNewPage',
+          component: HostNewPage },
+        { path: 'hosts/:id(\\d+)',
+          name: 'HostDetailPage',
+          component: HostDetailPage },
+        { path: 'hosts/:id(\\d+)/edit',
+          name: 'HostEditPage',
+          component: HostEditPage },
 
-    { path: '/applications',
-      name: 'CertificateApplicationIndexPage',
-      component: CertificateApplicationIndexPage },
-    { path: '/applications/:id(\\d+)',
-      name: 'CertificateApplicationDetailPage',
-      component: CertificateApplicationDetailPage },
+        { path: 'applications',
+          name: 'CertificateApplicationIndexPage',
+          component: CertificateApplicationIndexPage },
+        { path: 'applications/:id(\\d+)',
+          name: 'CertificateApplicationDetailPage',
+          component: CertificateApplicationDetailPage },
+      ],
+    },
   ]
 })
 

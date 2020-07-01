@@ -14,6 +14,6 @@ class Ability
     can :manage, Host
     can :manage, Organization
     can :manage, Certificate
-    can :manage, CertificateApplication, { user_id: user.id }
+    can :manage, CertificateApplication #, { user_id: user.id }
   end
 end
