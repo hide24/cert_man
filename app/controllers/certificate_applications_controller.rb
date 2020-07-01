@@ -1,11 +1,15 @@
 class CertificateApplicationsController < ApplicationController
-  authorize_resource
+  load_and_authorize_resource
   before_action :set_certificate_application, only: [:show, :edit, :update, :destroy, :certificates, :upload]
 
   # GET /certificate_applications
   # GET /certificate_applications.json
   def index
-    @certificate_applications = CertificateApplication.order('created_at DESC')
+    if current_user.has_role?(:admin)
+      @certificate_applications = CertificateApplication.order('created_at DESC')
+    else
+      @certificate_applications = current_user.certificate_applications.order('created_at DESC')
+    end
   end
 
   # GET /certificate_applications/1
@@ -32,6 +36,7 @@ class CertificateApplicationsController < ApplicationController
   # POST /certificate_applications.json
   def create
     @certificate_application = CertificateApplication.new(certificate_application_params)
+    @certificate_application.user = current_user
     if certificate_application_params.key?(:host_id)
       @certificate_application.register(certificate_application_params[:host_id])
     end
