@@ -1,4 +1,5 @@
 class CertificateApplicationsController < ApplicationController
+  authorize_resource
   before_action :set_certificate_application, only: [:show, :edit, :update, :destroy, :certificates, :upload]
 
   # GET /certificate_applications

@@ -1,9 +1,12 @@
 require 'test_helper'
 
 class HostsControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
   setup do
     @host = hosts(:one)
     @organization = organizations(:one)
+    @user = users(:one)
+    sign_in(@user)
   end
 
   test "should get index" do

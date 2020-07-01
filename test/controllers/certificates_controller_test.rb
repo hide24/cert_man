@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class CertificatesControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
   setup do
     @certificate = certificates(:one)
     @host = hosts(:one)
@@ -9,6 +10,8 @@ class CertificatesControllerTest < ActionDispatch::IntegrationTest
     @host.save
     @certificate.host = @host
     @certificate.save
+    @user = users(:one)
+    sign_in(@user)
   end
 
   test "should get index" do

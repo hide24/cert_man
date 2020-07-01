@@ -1,5 +1,5 @@
 class CertificateApplication < ApplicationRecord
-#  belongs_to :user
+  belongs_to :user, optional: true
   has_many :certificates
   has_many :hosts, through: :certificates
 

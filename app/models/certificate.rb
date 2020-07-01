@@ -1,5 +1,6 @@
 class Certificate < ApplicationRecord
   belongs_to :host
+  belongs_to :certificate_application, optional: true
   before_create :create_csr
   after_create :set_version
 

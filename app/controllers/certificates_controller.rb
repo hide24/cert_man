@@ -1,4 +1,5 @@
 class CertificatesController < ApplicationController
+  authorize_resource
   before_action :set_certificate, only: [:show, :edit, :update, :destroy]
 
   # GET /hosts/:host_id/certificates

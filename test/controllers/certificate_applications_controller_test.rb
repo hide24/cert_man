@@ -1,9 +1,11 @@
 require 'test_helper'
 
 class CertificateApplicationsControllerTest < ActionDispatch::IntegrationTest
+  include Devise::Test::IntegrationHelpers
   setup do
     @certificate_application = certificate_applications(:one)
     @user = users(:one)
+    sign_in(@user)
     @organization = organizations(:one)
     @host = hosts(:one)
     @host.organization = @organization
@@ -12,6 +14,7 @@ class CertificateApplicationsControllerTest < ActionDispatch::IntegrationTest
     @certificate.host = @host
     @certificate.save
     @certificate_application.certificates << @certificate
+    @certificate_application.user = @user
     @certificate_application.save
   end
 

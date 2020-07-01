@@ -1,4 +1,5 @@
 class HostsController < ApplicationController
+  authorize_resource
   before_action :set_host, only: [:show, :edit, :update, :destroy]
 
   # GET /hosts
