@@ -74,12 +74,12 @@ class HostsController < ApplicationController
     host_schema = {
       groups: [
         {
-          legend: 'Host Info',
+          legend: Host.human_attribute_name(:host_info),
           fields: [
             {
               type: "input",
               inputType: "text",
-              label: "HostName",
+              label: Host.human_attribute_name(:hostname),
               model: "hostname",
               inputName: "hostname",
               readonly: readonly,
@@ -90,7 +90,7 @@ class HostsController < ApplicationController
             },
             {
               type: "select",
-              label: "Organization",
+              label: Host.human_attribute_name(:organization),
               model: "organization_id",
               inputName: "organization_id",
               readonly: readonly,
@@ -106,12 +106,12 @@ class HostsController < ApplicationController
           ]
         },
         {
-          legend: 'Owner Info',
+          legend: Host.human_attribute_name(:owner_info),
           fields: [
             {
               type: "input",
               inputType: "text",
-              label: "Name",
+              label: Host.human_attribute_name(:owner_name),
               model: "owner_name",
               inputName: "owner_name",
               readonly: readonly,
@@ -123,7 +123,7 @@ class HostsController < ApplicationController
             }, {
               type: "input",
               inputType: "text",
-              label: "Mail",
+              label: Host.human_attribute_name(:mail),
               model: "mail",
               inputName: "mail",
               readonly: readonly,

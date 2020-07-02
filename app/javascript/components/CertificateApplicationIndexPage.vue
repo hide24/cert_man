@@ -2,7 +2,7 @@
   <div id="app">
     <div class="row">
       <div class="col-sm">
-        <b-button :to="{ name: 'HostIndexPage' }" variant="primary">Create New Application</b-button>
+        <b-button :to="{ name: 'HostIndexPage' }" variant="primary">{{ t('create_new_model', { model: tm('certificate_application')}) }}</b-button>
       </div>
       <div class="col-sm">
         <div>search: <input type="text" v-model="select" placeholder="Application Name"></div>

@@ -21,7 +21,7 @@ Vue.use(VuejsDialog)
 
 import VueFormGenerator from "vue-form-generator"
 import "vue-form-generator/dist/vfg.css"
-Vue.use(VueFormGenerator)
+Vue.component("VueFormGenerator", VueFormGenerator.component)
 
 import Toasted from 'vue-toasted'
 var toast_options = {
@@ -31,6 +31,9 @@ var toast_options = {
   theme: 'outline',
 }
 Vue.use(Toasted, toast_options)
+
+import I18n from '../mixins/i18n'
+Vue.mixin(I18n)
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({

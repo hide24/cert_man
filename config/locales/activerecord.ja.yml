@@ -1,0 +1,47 @@
+ja:
+  activerecord:
+    models:
+      certificate: "証明書"
+      certificate_application: "申請書"
+      host: "ホスト"
+      organization: "組織"
+      role: "ロール"
+      user: "ユーザー"
+    attributes:
+      certificate:
+        host: "ホスト"
+        version: "バージョン"
+        certificate_key: "秘密鍵"
+        certificate_request: CSR
+        certificate: "証明書"
+        owner_name: "担当者"
+        certificate_application: "申請書"
+      certificate_application:
+        user: "作成ユーザー"
+        finished: "処理済み"
+      host:
+        hostname: "FQDN"
+        owner_name: "担当者"
+        organization: "機関"
+        mail: "担当者メールアドレス"
+        host_info: "ホスト情報"
+        owner_info: "担当者情報"
+      organization:
+        name: "組織名(表示用)"
+        country: "国(C)"
+        state: "州/都道府県(ST)"
+        locality: "領域(L)"
+        organization: "組織(O)"
+        unit: "部局(OU)"
+        mail: "メール(mail)"
+        organization_info: "機関情報"
+        dn_info: "DN情報"
+      role:
+        name: "権限名称"
+      user:
+        uid: "ユーザーID"
+        email: "メールアドレス"
+        password: "パスワード"
+        display_name: "表示名"
+        current_organization: "組織(最新)"
+        remember_me: "パスワードを記憶する"

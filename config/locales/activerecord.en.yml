@@ -1,0 +1,47 @@
+en:
+  activerecord:
+    models:
+      certificate: Certificate
+      certificate_application: "Certificate Application"
+      host: Host
+      organization: Organization
+      role: Role
+      user: User
+    attributes:
+      certificate:
+        host: Host
+        version: Version
+        certificate_key: "Private Key"
+        certificate_request: CSR
+        certificate: Certificate
+        owner_name: "Person in charge"
+        certificate_application: "Application"
+      certificate_application:
+        user: "User created by"
+        finished: "Completed"
+      host:
+        hostname: "FQDN"
+        owner_name: "Person in charge"
+        organization: "Organization"
+        mail: "Mail"
+        host_info: "Host Information"
+        owner_info: "Personal Information"
+      organization:
+        name: "Organization Name"
+        country: "County"
+        state: "State"
+        locality: "Locality"
+        organization: "organization"
+        unit: "Organizational Unit"
+        mail: "Mail"
+        organization_info: "Organization Info"
+        dn_info: "Domain Name Info"
+      role:
+        name: "Name of Role"
+      user:
+        uid: "User ID"
+        email: "Mail"
+        password: "Password"
+        display_name: "Display Name"
+        current_organization: "Organization last used"
+        remember_me: "Remember me"

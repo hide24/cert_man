@@ -69,6 +69,11 @@ interaction:
     command: bundle exec bundle-audit
     command: bundle exec brakeman
 
+  trans:
+    description: Create JS translations from Rails translations
+    service: backend
+    command: bundle exec rake i18n:js:export
+
 provision:
   - dip compose up -d postgres
   - dip compose up -d webpacker
@@ -76,3 +81,4 @@ provision:
   - dip sh -c "rails db:prepare 2> /dev/null; exit 0"
   - dip sh -c "rails db:prepare"
   - dip sh -c "RAILS_ENV=test rails db:prepare"
+  - dip sh -c "rake i18n:js:export"

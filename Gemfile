@@ -19,6 +19,7 @@ gem 'devise'
 gem 'rolify'
 gem 'cancancan'
 gem 'rubyzip', require: 'zip'
+gem 'i18n-js'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

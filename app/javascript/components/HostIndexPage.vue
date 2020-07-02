@@ -2,7 +2,7 @@
   <div id="app">
     <div class="row">
       <div class="col-sm">
-        <b-button :to="{ name: 'HostNewPage' }" variant="primary">Create New Host</b-button>
+        <b-button :to="{ name: 'HostNewPage' }" variant="primary">{{ t('create_new_model', {model: tm('host')}) }}</b-button>
       </div>
       <div class="col-sm">
         <div>search: <input type="text" v-model="select" placeholder="Host Name"></div>
@@ -23,9 +23,9 @@
       <tbody v-if="hosts.length">
         <tr>
           <th>ID</th>
-          <th>Host Name</th>
-          <th>Owner</th>
-          <th>Certificate</th>
+          <th>{{ ta('host', 'hostname') }}</th>
+          <th>{{ ta('host', 'owner_name') }}</th>
+          <th>{{ tm('certificate') }}</th>
           <th>&nbsp;</th>
         </tr>
         <tr v-for="h in getItems" @click="selectHost(h.id)">
@@ -34,9 +34,9 @@
           <td :class="hostRowClass(h.id)">{{ h.owner_name }}</td>
           <td :class="`${hostRowClass(h.id)} table-${h.certificate.expiration_date_class}`">{{ h.certificate.expiration_date }}</td>
           <td :class="hostRowClass(h.id)">
-            <b-button :to="{ name: 'HostDetailPage', params: { id: h.id } }" variant="outline-primary">View</b-button>
-            <b-button :to="{ name: 'HostEditPage', params: { id: h.id } }" variant="outline-secondary">Edit</b-button>
-            <b-button @click="confirmDelete(h)" variant="outline-danger">Delete</b-button>
+            <b-button :to="{ name: 'HostDetailPage', params: { id: h.id } }" variant="outline-primary">{{ t('view') }}</b-button>
+            <b-button :to="{ name: 'HostEditPage', params: { id: h.id } }" variant="outline-secondary">{{ t('edit') }}</b-button>
+            <b-button @click="confirmDelete(h)" variant="outline-danger">{{ t('delete')}}</b-button>
           </td>
         </tr>
       </tbody>
@@ -47,7 +47,7 @@
 
     <div class="row">
       <div class="col-sm">
-        <b-button @click="createApplication()" variant="success">Create New Application</b-button>
+        <b-button @click="createApplication()" variant="success">{{ t('create_new_model', {model: tm('certificate_application')}) }}</b-button>
       </div>
       <div class="col-sm">
         <div class="float-right">

@@ -1,0 +1,3 @@
+translations:
+  - file: "app/javascript/packs/locales/%{locale}.js"
+    prefix: "import I18n from './i18n';\n"

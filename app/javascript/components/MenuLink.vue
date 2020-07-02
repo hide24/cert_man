@@ -2,9 +2,9 @@
   <div class="contents">
     <div class="row">
       <div class="col-sm">
-        <b-button :to="{ name: 'CertificateApplicationIndexPage' }" :variant="buttonClass('CertificateApplication')">Applications</b-button>
-        <b-button :to="{ name: 'HostIndexPage' }" :variant="buttonClass('Host')">Hosts</b-button>
-        <b-button :to="{ name: 'OrganizationIndexPage' }" :variant="buttonClass('Organization')">Organizations</b-button>
+        <b-button :to="{ name: 'CertificateApplicationIndexPage' }" :variant="buttonClass('CertificateApplication')">{{ t('activerecord.models.certificate_application') }}</b-button>
+        <b-button :to="{ name: 'HostIndexPage' }" :variant="buttonClass('Host')">{{ t('activerecord.models.host') }}</b-button>
+        <b-button :to="{ name: 'OrganizationIndexPage' }" :variant="buttonClass('Organization')">{{ t('activerecord.models.organization') }}</b-button>
       </div>
     </div>
     <div class="row">&nbsp;</div>

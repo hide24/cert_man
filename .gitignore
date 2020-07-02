@@ -33,3 +33,7 @@ yarn-debug.log*
 .yarn-integrity
 
 .DS_Store
+# ignore JavaScript Translations. Execute `rake i18n:js:export`
+/app/javascript/packs/locales/*
+!/app/javascript/packs/locales/.gitkeep
+!/app/javascript/packs/locales/i18n.js

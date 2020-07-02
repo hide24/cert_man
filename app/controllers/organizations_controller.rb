@@ -76,12 +76,12 @@ class OrganizationsController < ApplicationController
     organization_schema = {
       groups: [
         {
-          legend: 'Organization Info',
+          legend: Organization.human_attribute_name(:organization_info),
           fields: [
             {
               type: "input",
               inputType: "text",
-              label: "Name",
+              label: Organization.human_attribute_name(:name),
               model: "name",
               inputName: "name",
               readonly: readonly,
@@ -93,12 +93,12 @@ class OrganizationsController < ApplicationController
           ]
         },
         {
-          legend: 'Domain Name Info',
+          legend: Organization.human_attribute_name(:dn_info),
           fields: [
             {
               type: "input",
               inputType: "text",
-              label: "Country",
+              label: Organization.human_attribute_name(:country),
               model: "country",
               inputName: "country",
               readonly: readonly,
@@ -110,7 +110,7 @@ class OrganizationsController < ApplicationController
             }, {
               type: "input",
               inputType: "text",
-              label: "state",
+              label: Organization.human_attribute_name(:state),
               model: "state",
               inputName: "state",
               readonly: readonly,
@@ -122,7 +122,7 @@ class OrganizationsController < ApplicationController
             }, {
               type: "input",
               inputType: "text",
-              label: "locality",
+              label: Organization.human_attribute_name(:locality),
               model: "locality",
               inputName: "locality",
               readonly: readonly,
@@ -134,7 +134,7 @@ class OrganizationsController < ApplicationController
             }, {
               type: "input",
               inputType: "text",
-              label: "Organization",
+              label: Organization.human_attribute_name(:organization),
               model: "organization",
               inputName: "organization",
               readonly: readonly,
@@ -146,7 +146,7 @@ class OrganizationsController < ApplicationController
             }, {
               type: "input",
               inputType: "text",
-              label: "Organizational Unit",
+              label: Organization.human_attribute_name(:unit),
               model: "unit",
               inputName: "unit",
               readonly: readonly,
@@ -158,7 +158,7 @@ class OrganizationsController < ApplicationController
             }, {
               type: "input",
               inputType: "text",
-              label: "Mail",
+              label: Organization.human_attribute_name(:mail),
               model: "mail",
               inputName: "mail",
               readonly: readonly,

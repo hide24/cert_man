@@ -8,7 +8,7 @@
       </div>
       <vue-form-generator :schema="schema" :model="model" :options="formOptions"  @validated="onValidated"></vue-form-generator>
       <div class="mx-auto" style="width: 200px;">
-        <b-button @click="$router.go(-1)" variant="outline-secondary" v-if="!hideBack">Back</b-button>
+        <b-button @click="$router.go(-1)" variant="outline-secondary" v-if="!hideBack">{{ t('back') }}</b-button>
         <b-button type="submit" variant="primary" :disabled="!isValid" v-if="!readonly">{{ submitButton }}</b-button>
       </div>
     </form>
@@ -34,13 +34,13 @@ export default {
   },
   computed: {
     submitButton() {
-      let button = 'Create'
-      if(this.id) { button = 'Update'}
+      let button = this.t('create')
+      if(this.id) { button = this.t('update')}
       return button
     }
   },
   mounted() {
-    axios.get(`/${this.api}/schema?readonly=${this.readonly}`, {withCredentials: true})
+    axios.get(`/${this.api}/schema?readonly=${this.readonly}&locale=${this.currentLocale()}`, {withCredentials: true})
       .then(response => this.schema = response.data)
     if(this.id) {
       axios.get(`/${this.api}/${this.id}.json`, {withCredentials: true})

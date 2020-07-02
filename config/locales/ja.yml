@@ -1,0 +1,15 @@
+ja:
+  hello: "こんにちわ世界"
+  login: "ログイン"
+  logout: "ログアウト"
+  back: "もどる"
+  create: "登録"
+  view: "詳細"
+  edit: "編集"
+  update: "更新"
+  delete: "削除"
+  continue: "続ける"
+  cancel: "キャンセル"
+  ok: "OK"
+
+  create_new_model: "%{model}を新規登録"

@@ -12,7 +12,7 @@
     <table class="table table-striped table-bordered">
       <tbody v-if="certificates.length">
         <tr>
-          <th>Version</th>
+          <th>{{ ta('certificate', 'version') }}</th>
           <th>Expiration Date</th>
           <th>&nbsp;</th>
         </tr>
@@ -20,9 +20,9 @@
           <td><router-link :to="{ name: 'HostDetailPage', params: { id: c.id } }">{{ c.version }}</router-link></td>
           <td :class="`table-${c.expiration_date_class}`">{{ c.expiration_date }}</td>
           <td>
-            <b-button :href="`/certificates/${c.id}.key`" variant="outline-primary">Private Key</b-button>
-            <b-button :href="`/certificates/${c.id}.csr`" variant="outline-secondary" v-if="c.expiration_date === 'in progress'">Certificate Request</b-button>
-            <b-button :href="`/certificates/${c.id}.cer`" variant="outline-primary" v-else>Certificate</b-button>
+            <b-button :href="`/certificates/${c.id}.key`" variant="outline-primary">{{ ta('certificate', 'certificate_key') }}</b-button>
+            <b-button :href="`/certificates/${c.id}.csr`" variant="outline-secondary" v-if="c.expiration_date === 'in progress'">{{ ta('certificate', 'certificate_request') }}</b-button>
+            <b-button :href="`/certificates/${c.id}.cer`" variant="outline-primary" v-else>{{ ta('certificate', 'certificate')}}</b-button>
           </td>
         </tr>
       </tbody>

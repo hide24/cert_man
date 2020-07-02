@@ -2,7 +2,7 @@
   <div id="app">
     <div class="row">
       <div class="col-sm">
-        <b-button :to="{ name: 'OrganizationNewPage' }" variant="primary">Create New Organization</b-button>
+        <b-button :to="{ name: 'OrganizationNewPage' }" variant="primary">{{ t('create_new_model', {model: tm('organization')}) }}</b-button>
       </div>
       <div class="col-sm">
         <div>search: <input type="text" v-model="select" placeholder="Organization Name"></div>
@@ -23,7 +23,7 @@
       <tbody v-if="organizations.length">
         <tr>
           <th>ID</th>
-          <th>Name</th>
+          <th>{{ ta('organization', 'name') }}</th>
           <th>DN</th>
           <th>&nbsp;</th>
         </tr>
@@ -32,9 +32,9 @@
           <td><router-link :to="{ name: 'OrganizationDetailPage', params: { id: o.id } }">{{ o.name }}</router-link></td>
           <td>{{ o.dn }}</td>
           <td>
-            <b-button :to="{ name: 'OrganizationDetailPage', params: { id: o.id } }" variant="outline-primary">View</b-button>
-            <b-button :to="{ name: 'OrganizationEditPage', params: { id: o.id } }" variant="outline-secondary">Edit</b-button>
-            <b-button @click="confirmDelete(o)" variant="outline-danger">Delete</b-button>
+            <b-button :to="{ name: 'OrganizationDetailPage', params: { id: o.id } }" variant="outline-primary">{{ t('view') }}</b-button>
+            <b-button :to="{ name: 'OrganizationEditPage', params: { id: o.id } }" variant="outline-secondary">{{ t('edit') }}</b-button>
+            <b-button @click="confirmDelete(o)" variant="outline-danger">{{ t('delete') }}</b-button>
           </td>
         </tr>
       </tbody>
