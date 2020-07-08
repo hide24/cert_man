@@ -32,8 +32,13 @@ var toast_options = {
 }
 Vue.use(Toasted, toast_options)
 
-import I18n from '../mixins/i18n'
-Vue.mixin(I18n)
+import I18n from '../packs/locales/i18n.js'
+import '../packs/locales/ja.js'
+import '../packs/locales/en.js'
+window.I18n = I18n
+
+import i18n from '../mixins/i18n'
+Vue.mixin(i18n)
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = new Vue({

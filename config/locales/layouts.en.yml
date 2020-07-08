@@ -1,0 +1,11 @@
+en:
+  layouts:
+    navi_bar:
+      title: "UPKI Certificate Manager"
+      certificate_applications: "Applications"
+      hosts: "Hosts"
+      organizations: "Organizations"
+      languages: "Lang"
+      english: "English"
+      japanese: "Japanese(日本語)"
+      logout: "Logout"

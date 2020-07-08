@@ -1,0 +1,11 @@
+ja:
+  layouts:
+    navi_bar:
+      title: "UPKIサーバ証明書管理"
+      certificate_applications: "申請書"
+      hosts: "ホスト"
+      organizations: "機関"
+      languages: "言語"
+      english: "英語(English)"
+      japanese: "日本語(japanese)"
+      logout: "ログアウト"

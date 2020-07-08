@@ -1,6 +1,6 @@
-import I18n from '../packs/locales/i18n.js'
-import '../packs/locales/ja.js'
-import '../packs/locales/en.js'
+//import I18n from '../packs/locales/i18n.js'
+//import '../packs/locales/ja.js'
+//import '../packs/locales/en.js'
 
 export default {
   methods: {
