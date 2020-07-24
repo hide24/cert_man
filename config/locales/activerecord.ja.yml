@@ -10,10 +10,11 @@ ja:
     attributes:
       certificate:
         host: "ホスト"
-        version: "バージョン"
+        version: "証明書バージョン"
         certificate_key: "秘密鍵"
         certificate_request: CSR
         certificate: "証明書"
+        certificate_upload: "証明書アップロード"
         owner_name: "担当者"
         certificate_application: "申請書"
       certificate_application:

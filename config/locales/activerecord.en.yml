@@ -14,6 +14,7 @@ en:
         certificate_key: "Private Key"
         certificate_request: CSR
         certificate: Certificate
+        certificate_upload: "Upload Certificate"
         owner_name: "Person in charge"
         certificate_application: "Application"
       certificate_application:

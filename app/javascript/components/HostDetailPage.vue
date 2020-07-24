@@ -22,6 +22,9 @@
           <td>
             <b-button :href="`/certificates/${c.id}.key`" variant="outline-primary">{{ ta('certificate', 'certificate_key') }}</b-button>
             <b-button :href="`/certificates/${c.id}.csr`" variant="outline-secondary" v-if="c.expiration_date === 'in progress'">{{ ta('certificate', 'certificate_request') }}</b-button>
+            <label class="label btn btn-outline-secondary" v-if="c.expiration_date === 'in progress'">{{ ta('certificate', 'certificate_upload') }}
+              <input type="file" @change="onFileChange(c.id, $event)" multiple="multiple" class="file" />
+            </label>
             <b-button :href="`/certificates/${c.id}.cer`" variant="outline-primary" v-else>{{ ta('certificate', 'certificate')}}</b-button>
           </td>
         </tr>
@@ -79,16 +82,46 @@ export default {
       if(this.select.length > 1) {q.select = this.select}
       return q
     },
+    onFileChange(certificateId, e) {
+      const file = e.target.files[0]
+      const reader = new FileReader()
+      reader.readAsText(file)
+      reader.onload = () => {
+        const body = { certificate: { certificate: reader.result } }
+        axios.put(`/certificates/${certificateId}.json`, body)
+        .then(
+          response => {
+            this.updatCertificates()
+            this.$toasted.show('Certificate was successfully updated.')
+          }
+        ).catch(
+          error => {
+            this.$toasted.show('Error occurred.', {type: 'error'})
+          }
+        )
+      }
+      reader.onerror = () => {
+        console.log(reader.error)
+      }
+    },
+    updatCertificates() {
+      axios.get(`/hosts/${this.$route.params.id}/certificates.json`, {withCredentials: true})
+        .then(response => {
+          this.certificates = response.data
+        })
+      },
   },
   mounted() {
-    axios.get(`/hosts/${this.$route.params.id}/certificates.json`, {withCredentials: true})
-      .then(response => {
-        this.certificates = response.data
-      })
-
+    this.updatCertificates()
   },
 }
 </script>
 
 <style scoped>
+input.file {
+  display: none;
+}
+.label {
+  margin-top: 8px;
+}
 </style>

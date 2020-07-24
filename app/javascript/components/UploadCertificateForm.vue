@@ -62,12 +62,6 @@ export default {
     onFileChange(e) {
       e.preventDefault()
       const files = [...(e.target.files || e.dataTransfer.files)]
-      const formData = new FormData()
-      const config = {
-        headers: {
-          'content-type': 'multipart/form-data'
-        }
-      }
       this.uploadFiles(files)
     },
     uploadFiles(files) {
