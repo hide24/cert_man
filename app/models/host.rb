@@ -2,6 +2,7 @@ class Host < ApplicationRecord
   has_many :users, through: :user_hosts
   has_many :certificates
   belongs_to :organization
+  has_one :renewal
 
   validates :hostname, uniqueness: true
 

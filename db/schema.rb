@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_01_073030) do
+ActiveRecord::Schema.define(version: 2020_07_25_045449) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,26 @@ ActiveRecord::Schema.define(version: 2020_07_01_073030) do
     t.string "organization"
     t.string "unit"
     t.string "mail"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "renewals", force: :cascade do |t|
+    t.integer "host_id"
+    t.string "file_host"
+    t.string "file_path"
+    t.string "cer_filename"
+    t.string "key_filename"
+    t.string "file_username"
+    t.string "file_password"
+    t.string "file_pkey"
+    t.boolean "file_use_password"
+    t.string "script_host"
+    t.string "script_path"
+    t.string "script_username"
+    t.string "script_password"
+    t.string "script_pkey"
+    t.boolean "script_use_password"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

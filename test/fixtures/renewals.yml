@@ -1,0 +1,35 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  host_id: 1
+  file_host: MyString
+  file_path: MyString
+  cer_filename: MyString
+  key_filename: MyString
+  file_username: MyString
+  file_password: MyString
+  file_pkey: MyString
+  file_use_password: false
+  script_host: MyString
+  script_path: MyString
+  script_username: MyString
+  script_password: MyString
+  script_pkey: MyString
+  script_use_password: false
+
+two:
+  host_id: 1
+  file_host: MyString
+  file_path: MyString
+  cer_filename: MyString
+  key_filename: MyString
+  file_username: MyString
+  file_password: MyString
+  file_pkey: MyString
+  file_use_password: false
+  script_host: MyString
+  script_path: MyString
+  script_username: MyString
+  script_password: MyString
+  script_pkey: MyString
+  script_use_password: false

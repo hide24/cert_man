@@ -15,5 +15,6 @@ class Ability
     can :manage, Organization
     can :manage, Certificate
     can :manage, CertificateApplication #, { user_id: user.id }
+    can :manage, Renewal
   end
 end

@@ -1,0 +1,87 @@
+<%= form_with(model: [host, renewal], url: host_renewal_path(@host),local: true) do |form| %>
+  <% if renewal.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(renewal.errors.count, "error") %> prohibited this renewal from being saved:</h2>
+
+      <ul>
+        <% renewal.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :file_host %>
+    <%= form.text_field :file_host %>
+  </div>
+
+  <div class="field">
+    <%= form.label :file_path %>
+    <%= form.text_field :file_path %>
+  </div>
+
+  <div class="field">
+    <%= form.label :cer_filename %>
+    <%= form.text_field :cer_filename %>
+  </div>
+
+  <div class="field">
+    <%= form.label :key_filename %>
+    <%= form.text_field :key_filename %>
+  </div>
+
+  <div class="field">
+    <%= form.label :file_username %>
+    <%= form.text_field :file_username %>
+  </div>
+
+  <div class="field">
+    <%= form.label :file_password %>
+    <%= form.text_field :file_password %>
+  </div>
+
+  <div class="field">
+    <%= form.label :file_pkey %>
+    <%= form.text_field :file_pkey %>
+  </div>
+
+  <div class="field">
+    <%= form.label :file_use_password %>
+    <%= form.check_box :file_use_password %>
+  </div>
+
+  <div class="field">
+    <%= form.label :script_host %>
+    <%= form.text_field :script_host %>
+  </div>
+
+  <div class="field">
+    <%= form.label :script_path %>
+    <%= form.text_field :script_path %>
+  </div>
+
+  <div class="field">
+    <%= form.label :script_username %>
+    <%= form.text_field :script_username %>
+  </div>
+
+  <div class="field">
+    <%= form.label :script_password %>
+    <%= form.text_field :script_password %>
+  </div>
+
+  <div class="field">
+    <%= form.label :script_pkey %>
+    <%= form.text_field :script_pkey %>
+  </div>
+
+  <div class="field">
+    <%= form.label :script_use_password %>
+    <%= form.check_box :script_use_password %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

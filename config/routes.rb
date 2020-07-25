@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+#  resources :renewals
   resources :certificate_applications do
     member do
       get 'certificates'
@@ -18,6 +19,7 @@ Rails.application.routes.draw do
       get 'schema'
     end
     resources :certificates, shallow: true
+    resource :renewal
   end
   devise_for :users
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
