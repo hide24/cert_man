@@ -7,6 +7,7 @@ en:
       organization: Organization
       role: Role
       user: User
+      renewal: "Certificate Renewal"
     attributes:
       certificate:
         host: Host
@@ -46,3 +47,30 @@ en:
         display_name: "Display Name"
         current_organization: "Organization last used"
         remember_me: "Remember me"
+      renewal:
+        host: Host
+        file_transfer_info: "File Transfer Info"
+        file_host: "Host to send file"
+        file_path: "path to create file"
+        cer_filename: "remote filename of certificate"
+        key_filename: "remote filename of private key"
+        file_username: "username of remote host"
+        file_password: "password of remote user"
+        file_pkey: "private key of remote user"
+        file_authtype: "authenticate method"
+        script_execute_info: "Renewal Script Info"
+        script_host: "Host on execute script"
+        script_path: "path to script"
+        script_username: "username of remote host"
+        script_password: "password of remote user"
+        script_pkey: "private key of remote user"
+        script_authtype: "authenticate method"
+        pkey_auth: "Public key authentication"
+        password_auth: "Password authentication"
+
+
+
+
+
+
+

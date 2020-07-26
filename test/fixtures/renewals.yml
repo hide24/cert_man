@@ -9,13 +9,13 @@ one:
   file_username: MyString
   file_password: MyString
   file_pkey: MyString
-  file_use_password: false
+  file_authtype: false
   script_host: MyString
   script_path: MyString
   script_username: MyString
   script_password: MyString
   script_pkey: MyString
-  script_use_password: false
+  script_authtype: false
 
 two:
   host_id: 1
@@ -26,10 +26,10 @@ two:
   file_username: MyString
   file_password: MyString
   file_pkey: MyString
-  file_use_password: false
+  file_authtype: false
   script_host: MyString
   script_path: MyString
   script_username: MyString
   script_password: MyString
   script_pkey: MyString
-  script_use_password: false
+  script_authtype: false

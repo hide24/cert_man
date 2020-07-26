@@ -9,13 +9,13 @@ class CreateRenewals < ActiveRecord::Migration[6.0]
       t.string :file_username
       t.string :file_password
       t.string :file_pkey
-      t.boolean :file_use_password
+      t.boolean :file_authtype
       t.string :script_host
       t.string :script_path
       t.string :script_username
       t.string :script_password
       t.string :script_pkey
-      t.boolean :script_use_password
+      t.boolean :script_authtype
 
       t.timestamps
     end

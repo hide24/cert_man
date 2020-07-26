@@ -64,13 +64,13 @@ ActiveRecord::Schema.define(version: 2020_07_25_045449) do
     t.string "file_username"
     t.string "file_password"
     t.string "file_pkey"
-    t.boolean "file_use_password"
+    t.boolean "file_authtype"
     t.string "script_host"
     t.string "script_path"
     t.string "script_username"
     t.string "script_password"
     t.string "script_pkey"
-    t.boolean "script_use_password"
+    t.boolean "script_authtype"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
