@@ -43,6 +43,12 @@ class RenewalsControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
+  test "should show new renewal, when it does not exist" do
+    @renewal.delete
+    get host_renewal_url(@host)
+    assert_response :success
+  end
+
   test "should get edit" do
     get edit_host_renewal_url(@host)
     assert_response :success

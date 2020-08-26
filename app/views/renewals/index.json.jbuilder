@@ -1,1 +1,1 @@
-json.array! @renewals, partial: "renewals/renewal", as: :renewal
+json.array! @renewals, partial: "renewals/renewal", as: :renewal, host: @host

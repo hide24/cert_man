@@ -30,7 +30,7 @@ class Certificate < ApplicationRecord
     csr = OpenSSL::X509::Request.new
     csr.subject = host.x509_name
     csr.public_key = certificate_key.public_key
-    csr.sign(certificate_key, 'sha1')
+    csr.sign(certificate_key, 'sha256')
 
     self.certificate_request = csr
   end

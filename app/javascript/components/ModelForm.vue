@@ -19,7 +19,7 @@
 import axios from 'axios'
 
 export default {
-  props: ["modelName", "api", "id", "readonly", "hideBack"],
+  props: ["modelName", "api", "id", "readonly", "hideBack", "schemaApi"],
   data() {
     return {
       model: {},
@@ -40,9 +40,15 @@ export default {
     }
   },
   mounted() {
-    axios.get(`/${this.api}/schema?readonly=${this.readonly}&locale=${this.currentLocale()}`, {withCredentials: true})
+    if(!this.schemaApi) {
+      this.schemaApi = this.api
+    }
+    axios.get(`/${this.schemaApi}/schema?readonly=${this.readonly}&locale=${this.currentLocale()}`, {withCredentials: true})
       .then(response => this.schema = response.data)
-    if(this.id) {
+    if(this.id === 'single') {
+      axios.get(`/${this.api}.json`, {withCredentials: true})
+        .then(response => this.model = response.data)
+    } else if(this.id) {
       axios.get(`/${this.api}/${this.id}.json`, {withCredentials: true})
         .then(response => this.model = response.data)
     }
@@ -51,7 +57,7 @@ export default {
     submitModel() {
       let body = {}
       body[this.modelName] = this.model
-      if(this.model.id) {
+      if(this.model.id && !(this.id === 'single')) {
         // update
         axios
         .put(`/${this.api}/${this.model.id}.json`, body)

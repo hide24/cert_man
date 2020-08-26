@@ -1,1 +1,1 @@
-json.partial! "renewals/renewal", renewal: @renewal
+json.partial! "renewals/renewal", renewal: @renewal, host: @host

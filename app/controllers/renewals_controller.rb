@@ -26,7 +26,7 @@ class RenewalsController < ApplicationController
   # POST /hosts/1/renewal
   # POST /hosts/1/renewal.json
   def create
-    if @renewal.present?
+    if @host.renewal.present?
       update
       return
     end
@@ -35,7 +35,7 @@ class RenewalsController < ApplicationController
     respond_to do |format|
       if @renewal.save
         format.html { redirect_to host_renewal_url(@host), notice: 'Renewal was successfully created.' }
-        format.json { render :show, status: :created, location: @renewal }
+        format.json { render :show, status: :created, location: host_renewal_url(@host) }
       else
         format.html { render :new }
         format.json { render json: @renewal.errors, status: :unprocessable_entity }
@@ -49,7 +49,7 @@ class RenewalsController < ApplicationController
     respond_to do |format|
       if @renewal.update(renewal_params)
         format.html { redirect_to host_renewal_url(@host), notice: 'Renewal was successfully updated.' }
-        format.json { render :show, status: :ok, location: @renewal }
+        format.json { render :show, status: :ok, location: host_renewal_url(@host) }
       else
         format.html { render :edit }
         format.json { render json: @renewal.errors, status: :unprocessable_entity }
@@ -143,20 +143,21 @@ class RenewalsController < ApplicationController
               inputName: "file_password",
               readonly: readonly,
               featured: true,
-              required: true,
+              required: false,
               disabled: false,
               validator: "string"
             },
             {
-              type: "input",
-              inputType: "text",
+              type: "textArea",
               label: Renewal.human_attribute_name(:file_pkey),
               model: "file_pkey",
               inputName: "file_pkey",
               readonly: readonly,
               featured: true,
-              required: true,
+              required: false,
               disabled: false,
+              max: 4000,
+              row: 5,
               validator: "string"
             },
             {
@@ -165,7 +166,7 @@ class RenewalsController < ApplicationController
               model: "file_authtype",
               readonly: readonly,
               featured: true,
-              disabled: true,
+              disabled: false,
               default: true,
               textOn: Renewal.human_attribute_name(:pkey_auth),
               textOff: Renewal.human_attribute_name(:password_auth)
@@ -219,20 +220,21 @@ class RenewalsController < ApplicationController
               inputName: "script_password",
               readonly: readonly,
               featured: true,
-              required: true,
+              required: false,
               disabled: false,
               validator: "string"
             },
             {
-              type: "input",
-              inputType: "text",
+              type: "textArea",
               label: Renewal.human_attribute_name(:script_pkey),
               model: "script_pkey",
               inputName: "script_pkey",
               readonly: readonly,
               featured: true,
-              required: true,
+              required: false,
               disabled: false,
+              max: 4000,
+              row: 5,
               validator: "string"
             },
             {
@@ -241,7 +243,7 @@ class RenewalsController < ApplicationController
               model: "script_authtype",
               readonly: readonly,
               featured: true,
-              disabled: true,
+              disabled: false,
               default: true,
               textOn: Renewal.human_attribute_name(:pkey_auth),
               textOff: Renewal.human_attribute_name(:password_auth)
@@ -258,7 +260,7 @@ class RenewalsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_renewal
       @host ||= Host.find(params[:host_id])
-      @renewal = @host.renewal
+      @renewal = @host.renewal || Renewal.new(host_id: @host.id, cer_filename: ('%s.cer' % @host.hostname),  key_filename: ('%s.key' % @host.hostname))
     end
 
     def set_host

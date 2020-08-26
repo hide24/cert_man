@@ -65,8 +65,8 @@ en:
         script_password: "password of remote user"
         script_pkey: "private key of remote user"
         script_authtype: "authenticate method"
-        pkey_auth: "Public key authentication"
-        password_auth: "Password authentication"
+        pkey_auth: "Public key"
+        password_auth: "Password"
 
 
 
