@@ -1,0 +1,18 @@
+development:
+  host: localhost
+  port: 389
+  attribute: cn
+  base: ou=people,dc=example,dc=org
+  admin_user: cn=admin,dc=example,dc=org
+  admin_password: admin
+  ssl: false
+  # <<: *AUTHORIZATIONS
+production:
+  host: localhost
+  port: 389
+  attribute: cn
+  base: ou=people,dc=example,dc=org
+  admin_user: cn=admin,dc=example,dc=org
+  admin_password: admin
+  ssl: false
+  # <<: *AUTHORIZATIONS
